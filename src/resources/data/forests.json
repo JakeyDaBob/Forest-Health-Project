@@ -1,0 +1,122 @@
+[
+    {
+        "name": "Daintree Rainforest",
+        "latitude": -16.2333,
+        "longitude": 145.4500,
+        "radius_km": 50
+    },
+    {
+        "name": "Great Otway National Park",
+        "latitude": -38.6111,
+        "longitude": 143.5322,
+        "radius_km": 60
+    },
+    {
+        "name": "Blue Mountains National Park",
+        "latitude": -33.7310,
+        "longitude": 150.3110,
+        "radius_km": 70
+    },
+    {
+        "name": "Tasmanian Wilderness World Heritage Area",
+        "latitude": -42.1515,
+        "longitude": 146.3000,
+        "radius_km": 100
+    },
+    {
+        "name": "Nambung National Park (Pinnacles Desert)",
+        "latitude": -30.5744,
+        "longitude": 115.1656,
+        "radius_km": 30
+    },
+    {
+        "name": "Kakadu National Park",
+        "latitude": -12.6125,
+        "longitude": 132.7833,
+        "radius_km": 100
+    },
+    {
+        "name": "Murramarang National Park",
+        "latitude": -35.6894,
+        "longitude": 150.2844,
+        "radius_km": 40
+    },
+    {
+        "name": "Barrington Tops National Park",
+        "latitude": -32.0910,
+        "longitude": 151.4681,
+        "radius_km": 50
+    },
+    {
+        "name": "Lamington National Park",
+        "latitude": -28.2383,
+        "longitude": 153.1972,
+        "radius_km": 40
+    },
+    {
+        "name": "Yanchep National Park",
+        "latitude": -31.5678,
+        "longitude": 115.6667,
+        "radius_km": 20
+    },
+    {
+        "name": "Wilson's Promontory National Park",
+        "latitude": -39.0930,
+        "longitude": 146.3858,
+        "radius_km": 50
+    },
+    {
+        "name": "South East Forests National Park",
+        "latitude": -36.3033,
+        "longitude": 149.7433,
+        "radius_km": 40
+    },
+    {
+        "name": "Mount Field National Park",
+        "latitude": -42.6144,
+        "longitude": 146.6097,
+        "radius_km": 30
+    },
+    {
+        "name": "Kurringai Chase National Park",
+        "latitude": -33.6644,
+        "longitude": 151.2144,
+        "radius_km": 30
+    },
+    {
+        "name": "Mawson Peak (Heard Island)",
+        "latitude": -53.0793,
+        "longitude": 73.5118,
+        "radius_km": 20
+    },
+    {
+        "name": "Snowy Mountains (Kosciuszko National Park)",
+        "latitude": -36.4555,
+        "longitude": 148.2633,
+        "radius_km": 50
+    },
+    {
+        "name": "Wollemi National Park",
+        "latitude": -32.8706,
+        "longitude": 150.3794,
+        "radius_km": 70
+    },
+    {
+        "name": "Booderee National Park",
+        "latitude": -35.2025,
+        "longitude": 150.5106,
+        "radius_km": 30
+    },
+    {
+        "name": "Franklin-Gordon Wild Rivers National Park",
+        "latitude": -42.7167,
+        "longitude": 146.3667,
+        "radius_km": 50
+    },
+    {
+        "name": "Bruny Island",
+        "latitude": -43.3658,
+        "longitude": 147.2355,
+        "radius_km": 30
+    }
+]

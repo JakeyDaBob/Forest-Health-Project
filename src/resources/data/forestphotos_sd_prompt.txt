@@ -1,0 +1,37 @@
+Can you provide me with 4 prompts for an image of inside a forest for Stable Diffusion XL. The image should be photorealistic and look like it was taken from a mobile phone / non professional camera. 
+This image is from the Lamington National Park Australia
+
+Each prompt should randomly have:
+- Time of day, any daylight hour is allowed. Just not something that will make the image too dark
+- Camera Angle: High angle, Low angle, Eye level, Floor level
+- Different weather conditions: Clear, Rainy, Foggy
+
+Each prompt should have varying random:
+- Landscape Position/Type: Flat, Hill, Slope, Valley
+- Vegeation Type: EucalyptForestFernOrHerb, EucalyptForestGrassy, EucalyptForestShrubby, Rainforest, Riparian
+- Vegetation Development Stage: Old, Mature, Regrowth, Mixed, Few trees
+- Fire Burn Severity: Unburnt, Low, Moderate, High, Exetreme
+- Flowering Plants: Some, Plenty, None
+
+Have a chance of a random forest animal being in the image:
+- This animal shouldn't be the main focus of the image
+- And should instead be slightly obstructed
+
+When you decided on a random event for the image. Don't specify that it should be a small chance in the prompt.
+Simply either add the random event to the prompt or don't add it at all
+This goes for the main prompt and the negative prompt
+
+You are allowed to specify the following for settings:
+- CFG Values
+- Negative Prompt
+
+Make sure that the leaves are not noisy
+
+Use your knowledge of the mentioned forest to add further accuracy to the prompt
+
+To make sure the image is realisitc. Add a subtle depth of field so somethings aren't in focus
+
+I understand this raw scientific explaination of the data will not create a good image if it were a prompt
+Transform this information so it will work nicely with stable diffusion
+
+Compile these responses into a JSON file

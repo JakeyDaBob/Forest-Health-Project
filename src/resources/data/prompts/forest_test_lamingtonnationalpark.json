@@ -1,0 +1,32 @@
+{
+  "prompts": [
+    {
+      "prompt": "A realistic photo of Lamington National Park’s rainforest during late morning, captured from a high angle. The scene features a flat area with dense, mature vegetation including towering Antarctic Beech trees and lush ferns. Some flowering plants like the native violet are visible. The forest is mostly unburnt and a subtle depth of field is applied to blur some elements slightly. There is a chance of a small, unobtrusive wallaby partially hidden among the ferns. The image should look like it was taken with a mobile phone camera, with clear, non-noisy leaves.",
+      "settings": {
+        "CFG Value": 8,
+        "Negative Prompt": "artistic, painted, professional camera"
+      }
+    },
+    {
+      "prompt": "A photorealistic image of a Eucalypt forest in Lamington National Park at midday, taken from eye level. The view shows a sloping landscape with old Eucalyptus trees and a variety of rainforest shrubs. Plenty of flowering plants such as the Lamington Mintbush are visible. The forest has a moderate fire burn severity and includes a subtle depth of field to enhance realism. A small bird, such as the Eastern Whip-poor-will, is faintly visible in the foliage. The image resembles a standard mobile phone photo with sharp focus and natural lighting.",
+      "settings": {
+        "CFG Value": 7,
+        "Negative Prompt": "artistic, painted, professional camera"
+      }
+    },
+    {
+      "prompt": "A realistic photo of Lamington National Park’s Riparian forest during the afternoon, captured from a low angle. The scene includes a valley with regrowth vegetation, including native rushes and riverine ferns, and some flowering plants like the Flannel Flower. The forest is mostly unburnt with a subtle depth of field that makes parts of the scene slightly out of focus. A faintly visible possum adds to the realism. The image should have the quality of a mobile phone camera with well-defined, non-noisy leaves.",
+      "settings": {
+        "CFG Value": 8,
+        "Negative Prompt": "artistic, painted, professional camera"
+      }
+    },
+    {
+      "prompt": "A photorealistic image of Lamington National Park’s Eucalypt forest captured from a drone shot in the late afternoon. The scene features a flat area with a mix of mature and regrowth vegetation, including Blackbutt trees and flowering plants like Heath Myrtle. The fire burn severity is low, and a subtle depth of field creates a natural, realistic look. A partially visible kangaroo is subtly included in the background. The image should resemble a mobile phone photo with realistic textures and clear leaves.",
+      "settings": {
+        "CFG Value": 7,
+        "Negative Prompt": "artistic, painted, professional camera"
+      }
+    }
+  ]
+}
