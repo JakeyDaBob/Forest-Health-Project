@@ -1,0 +1,6 @@
+@echo off
+echo Building jar...
+call buildjar
+
+echo Running jar...
+call runjar
