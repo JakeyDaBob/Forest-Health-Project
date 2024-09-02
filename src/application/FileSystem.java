@@ -11,6 +11,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import java.net.URL;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.FileSystems;
+import java.util.stream.Stream;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Objects;
+
 
 public class FileSystem
 {
@@ -50,7 +65,7 @@ public class FileSystem
             }
             catch (IOException ex)
             {
-                PerformIOError(ex, path);
+                LogError(ex, path);
             }
         }
 
@@ -69,14 +84,42 @@ public class FileSystem
             }
             catch (IOException ex)
             {
-                PerformIOError(ex, path);
+                LogError(ex, path);
             }
         }
 
         return null;
     }
 
-    void PerformIOError(IOException ex, String path)
+    public URL GetFileURL(String pathRelative)
+    {
+        String path = GetPath(pathRelative);
+
+        if (type == Type.Resource)
+        {
+            return getClass().getResource(path);
+        }
+        else if (type == Type.Normal)
+        {
+                URL url = null;
+
+            try
+            {
+                url = new File(path).toURI().toURL();
+            }
+            catch (MalformedURLException ex)
+            {
+                LogError(ex, path);
+            }
+
+            return url;
+        }
+        
+        System.out.println("Unhandled type: " + type);
+        return null;
+    }
+
+    void LogError(Exception ex, String path)
     {
         System.err.println(type + " error: '" + path + "' ("+ ex.getClass().getName() +")");
     }
@@ -129,6 +172,93 @@ public class FileSystem
         }
 
         return strOut;
+    }
+
+    public String[] GetAllFilesInDirectory(String pathRelative)
+    {
+        return type == Type.Normal ? GetAllFilesInDirectoryFile(pathRelative) : GetAllFilesInDirectoryResource(pathRelative);
+    }
+
+    String[] GetAllFilesInDirectoryFile(String pathRelative)
+    {
+        String path = GetPath(pathRelative);
+        URL resourceDir = GetFileURL(pathRelative);
+
+        List<String> fileList = new ArrayList<>();
+
+        if (resourceDir != null)
+        {
+            File dir = new File(resourceDir.getPath());
+
+            if (dir.isDirectory())
+            {
+                String[] files = Objects.requireNonNull(dir.list());
+                for (String fileName : files)
+                {
+                    fileList.add(fileName);
+                }
+            }
+            else
+            {
+                System.out.println("Path is not a directory: '"+path+"'");
+            }
+        }
+        else
+        {
+            System.out.println("Directory not found: '"+path+"'");
+        }
+
+        String[] fileStrings = new String[fileList.size()];
+        fileList.toArray(fileStrings);
+        return fileStrings;
+    }
+
+    String[] GetAllFilesInDirectoryResource(String pathRelative)
+    {
+        List<String> fileList = new ArrayList<>();
+
+        try 
+        {
+            String resourcePath = GetPath(pathRelative);
+            URL resourceDirURL = getClass().getResource(resourcePath);
+
+            if (resourceDirURL != null) 
+            {
+                if (resourceDirURL.getProtocol().equals("jar")) 
+                {
+                    try (java.nio.file.FileSystem fs = FileSystems.newFileSystem(URI.create("jar:" + resourceDirURL.getPath().substring(0, resourceDirURL.getPath().indexOf("!"))), new HashMap<>())) {
+                        Path pathInJar = fs.getPath(resourcePath);
+                        try (Stream<Path> paths = Files.walk(pathInJar, 1)) 
+                        {
+                            paths.filter(Files::isRegularFile)
+                                 .forEach(p -> fileList.add(p.getFileName().toString()));
+                        }
+                    }
+                }
+                 else 
+                 {
+                    Path path = Paths.get(resourceDirURL.toURI());
+                    try (Stream<Path> paths = Files.walk(path, 1)) 
+                    {
+                        paths.filter(Files::isRegularFile)
+                             .forEach(p -> fileList.add(p.getFileName().toString()));
+                    }
+                }
+            } 
+            else 
+            {
+                System.out.println("Resource directory not found: " + resourcePath);
+            }
+        } 
+        catch (URISyntaxException | IOException e)
+        {
+            LogError(e, GetPath(pathRelative));
+            e.printStackTrace();
+        }   
+
+        String[] fileStrings = new String[fileList.size()];
+        fileList.toArray(fileStrings);
+        return fileStrings;
     }
 
     boolean CanDoWriteCheck()
