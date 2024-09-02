@@ -10,7 +10,7 @@ public class StepTemplate extends StepPanel
     }
 
     @Override
-    public String GetName()
+    public String GetStepName()
     {
         return "Template Step";
     } 

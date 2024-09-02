@@ -3,6 +3,7 @@ package window;
 import java.awt.*;
 import javax.swing.*;
 
+
 import application.AppInfo;
 import generic.Vector2Int;
 import window.panels.DataRecordCreate;

@@ -5,9 +5,25 @@ import javax.swing.*;
 
 public abstract class StepPanel extends JLayeredPane
 {
-    public Runnable onComplete;
+    private Runnable OnState;
     protected DataContext context;
     protected JLayeredPane parentPanel;
+    protected StepState state;
+    public StepState getState()
+    {
+        return state;
+    }
+
+    public void SetOnState(Runnable runnable)
+    {
+        OnState = runnable;
+    }
+
+    protected void SetState(StepState state)
+    {
+        this.state = state;
+        OnState.run();
+    }
 
     public StepPanel(JLayeredPane parentPanel, DataContext context)
     {
@@ -19,5 +35,5 @@ public abstract class StepPanel extends JLayeredPane
 
     public abstract StepState GetState();
 
-    public abstract String GetName();
+    public abstract String GetStepName();
 }
