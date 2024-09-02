@@ -3,18 +3,19 @@ package graphics;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
+import java.io.InputStream;
+
 import javax.imageio.ImageIO;
 
 public class DrawImage extends JPanel
 {
     private BufferedImage image;
 
-    public DrawImage(String path)
+    public DrawImage(InputStream inputStream)
     {
         try
         {
-            image = ImageIO.read(new File(path));
+            image = ImageIO.read(inputStream);
         }
         catch (Exception ex)
         {

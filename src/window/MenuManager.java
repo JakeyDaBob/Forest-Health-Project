@@ -16,7 +16,7 @@ public class MenuManager
     Timer timer;
     static JFrame window;
 
-    public static void Innit()
+    public static void Innit(MenuState startState)
     {
         window = new JFrame(AppInfo.Name);
         window.setVisible(true);
@@ -28,6 +28,8 @@ public class MenuManager
         window.setResizable(false);
 
         WindowUtil.CenterWindow(window);
+
+        SetState(startState);
     }
 
     public static void SetState(MenuState state)
