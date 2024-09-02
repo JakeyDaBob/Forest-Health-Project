@@ -1,15 +1,11 @@
 package test;
-import java.lang.reflect.Field;
 
 import generic.Vector3;
 
-import java.lang.IllegalAccessException;
 import java.util.Random;
 import java.time.LocalDateTime;
 
 import org.json.JObjectableAuto;
-import org.json.JSONObject;
-import org.json.JObjectable;
 public class ToiletEnjoyer extends JObjectableAuto
 {
     public String firstName;
