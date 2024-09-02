@@ -1,5 +1,6 @@
 package window.panels;
 
+import window.panels.datarecordcreate.*;
 import java.awt.*;
 import javax.swing.*;
 
@@ -8,7 +9,8 @@ public class DataRecordCreate extends JLayeredPane
     Timer timer;
     int progress;
 
-    JPanel holder;
+    JLayeredPane holder;
+    JLayeredPane stepPanel;
 
     public DataRecordCreate(JFrame window)
     {
@@ -19,7 +21,12 @@ public class DataRecordCreate extends JLayeredPane
         backgroundPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
         add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
 
-        holder = new JPanel();
+        holder = new JLayeredPane();
         holder.setBounds(0, 0, window.getWidth(), window.getHeight());
+        add(holder, JLayeredPane.PALETTE_LAYER);
+        
+        DataContext context = new DataContext();
+        stepPanel = new StepTakePhoto(holder, context);
+        holder.add(stepPanel, JLayeredPane.DEFAULT_LAYER);
     }
 }

@@ -1,12 +1,12 @@
 package window.panels.datarecordcreate;
 
-import javax.swing.JPanel;
+import javax.swing.JLayeredPane;
 
-public class StepTemplate extends Step
+public class StepTemplate extends StepPanel
 {
-    public StepTemplate(JPanel panel, DataContext context)
+    public StepTemplate(JLayeredPane parentPanel, DataContext context)
     {
-        super(panel, context);
+        super(parentPanel, context);
     }
 
     @Override
