@@ -3,8 +3,9 @@ package datarecord;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.json.JObjectable;
+import org.json.JObjectableAuto;
 import org.json.JSONObject;
+import org.json.JObjectable;
 
 import java.io.Serializable;
 import java.util.Base64;
@@ -15,8 +16,9 @@ import generic.Vector3;
 
 import java.util.Random;
 import java.lang.reflect.Field;
+import java.util.Arrays;
 
-public class DataRecord implements Serializable, JObjectable
+public class DataRecord extends JObjectableAuto
 {
     public Image image;
     public double geolocationLatitude, geolocationLongitude;
@@ -36,7 +38,7 @@ public class DataRecord implements Serializable, JObjectable
 
     public FaunaRecord[] faunaRecords;
 
-    public FloweringState floweringStatesPerLayer;
+    public FloweringState floweringState;
 
     public double altitudeMeters, barometricPressureAtm;
     public double compassDirectionDegree;
@@ -44,14 +46,16 @@ public class DataRecord implements Serializable, JObjectable
 
     public DataRecord()
     {
-
+        image = new Image();
+        dateTime = LocalDateTime.now();
+        accelerometerData = new Vector3();
     }
 
     public DataRecord(Random random)
     {
         image = new Image();
         image.name = "IMG_" + random.nextInt(0,10000);
-        image.data = new byte[500];
+        image.data = new byte[100];
         random.nextBytes(image.data);
 
         dateTime = LocalDateTime.now();
@@ -71,118 +75,20 @@ public class DataRecord implements Serializable, JObjectable
         List<FaunaRecord> faunaRecordsList = new ArrayList<>();
         for (int i = 0; i < 3; i++)
         {
-            if ((random.nextInt(100)+1) > 100)
-            {
-                break;
-            }
+            FaunaRecord faunaRecord = new FaunaRecord();
+            faunaRecord.data = "Animal Name " + random.nextInt(100);
+            faunaRecord.interactionType = FaunaRecord.InteractionType.values()[random.nextInt(FaunaRecord.InteractionType.values().length)];
+            faunaRecord.type = FaunaRecord.Type.values()[random.nextInt(FaunaRecord.Type.values().length)];
 
-            FaunaRecord fauna = new FaunaRecord();
-            fauna.data = "Animal Name " + random.nextInt(100);
-            fauna.interactionType = FaunaRecord.InteractionType.values()[random.nextInt(FaunaRecord.InteractionType.values().length)];
-            fauna.type = FaunaRecord.Type.values()[random.nextInt(FaunaRecord.Type.values().length)];
+            faunaRecordsList.add(faunaRecord);
         }
-        faunaRecords = new FaunaRecord[faunaRecordsList.size()];
-        faunaRecordsList.toArray(faunaRecords);
+        faunaRecords = faunaRecordsList.toArray(new FaunaRecord[faunaRecordsList.size()]);
 
-        accelerometerData = new Vector3(1,2,3);
-    }
-
-    @Override
-    public void fromJson(JSONObject obj)
-    {
-        /*
-        image = new Image();
-        image.fromJson(obj.getJSONObject("image"));
-
-        geolocationLatitude = obj.optDouble("geoLatitude");
-        geolocationLongitude = obj.optDouble("geoLongitude");
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        dateTime = LocalDateTime.parse(obj.optString("dateTime"), formatter);
-
-        landscapePosition = LandscapePosition.valueOf(obj.optString("landscapePosition"));
-        */
-    }
-
-    @Override
-    public JSONObject toJson()
-    {
-        JSONObject obj = new JSONObject();
-        
-        /*
-        obj.put("image", image.toJson());
-        obj.put("geoLatitude", geolocationLatitude);
-        obj.put("geoLongitude", geolocationLongitude);
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String dateTimeString = dateTime.format(formatter);
-        obj.put("dateTime", dateTimeString);
-
-        obj.put("landscapePosition", landscapePosition);
-        
-        return obj;
-        */
-
-        Field[] fields = getClass().getDeclaredFields();
-        for (Field field : fields)
-        {
-            try
-            {
-                Class<?> type = field.getType();
-
-                field.setAccessible(true);
-                Object value = field.get(this);
-
-                boolean isJObjectable = false;
-                boolean isJObjectableArray = false;
-
-                //Use field.isArray()
-
-                Class<?>[] interfaces = type.getInterfaces();
-                for (Class<?> i : interfaces)
-                {
-                    if (i == JObjectable.class)
-                    {
-                        isJObjectable = true;
-                    }
-                    else if (i == JObjectable[].class)
-                    {
-                        isJObjectableArray = true;
-                    }
-                }
-
-                //JObjectable?
-                if (isJObjectable)
-                {
-                    System.out.println(field.getName() + " Jobjectable");
-                    JObjectable jobjectable = (JObjectable)value;
-                    obj.put(field.getName(), jobjectable.toJson());
-                }
-                else if (isJObjectableArray)
-                {
-                    System.out.println(field.getName() + " Jobjectable Array");
-                    JObjectable[] jobjs = (JObjectable[])value;
-                    
-                    for (JObjectable jobj : jobjs)
-                    {
-                        obj.put(field.getName(), jobj.toString());
-                    }
-                }
-                //Anything else lol
-                else
-                {
-                    System.out.println(field.getName() + "Something idk lol");
-                    obj.put(field.getName(), value);
-                }
-            }
-            catch (IllegalAccessException ex)
-            {
-                System.err.println("Access error on field: " + field.getName());
-                ex.printStackTrace();
-            }
-        }
-
-        return obj;
+        floweringState = FloweringState.values()[random.nextInt(FloweringState.values().length)];
+        altitudeMeters = random.nextDouble(500);
+        barometricPressureAtm = random.nextDouble(850,1013);
+        compassDirectionDegree = random.nextDouble(360);
+        accelerometerData = new Vector3((float)random.nextDouble(-0.1,0.1), (float)random.nextDouble(-0.2,0.2), (float)random.nextDouble(-0.1,0.1));
     }
 
     public enum LandscapePosition
@@ -191,30 +97,6 @@ public class DataRecord implements Serializable, JObjectable
         Hill,
         Slope,
         Valley
-    }
-
-    public class Image implements JObjectable
-    {
-        public String name;
-        public byte[] data;
-
-        @Override
-        public void fromJson(JSONObject obj)
-        {
-            name = obj.optString("name");
-            data = Base64.getDecoder().decode(obj.optString("data"));
-        }
-
-        @Override
-        public JSONObject toJson()
-        {
-            JSONObject obj = new JSONObject();
-
-            obj.put("name", name);
-            obj.put("data", Base64.getEncoder().encodeToString(data));
-
-            return obj;
-        }
     }
 
     public enum VegetationType
@@ -277,25 +159,6 @@ public class DataRecord implements Serializable, JObjectable
         EpicormicShootsPresent,
         EpicormicAndBasalShootsPresent,
         NoEpicormicOrBasalShootsPresent
-    }
-
-    public class FaunaRecord implements Serializable
-    {
-        public Type type;
-        public InteractionType interactionType;
-        public String data;
-
-        public enum Type
-        {
-            SpeciesName,
-            AnimalType
-        }
-
-        public enum InteractionType
-        {
-            Sighting,
-            CallHeard
-        }
     }
 
     public enum Layers

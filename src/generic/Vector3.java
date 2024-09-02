@@ -32,9 +32,9 @@ public class Vector3 implements Serializable, JObjectable
     {
         switch (i)
         {
-            case 0: x = f; break;
-            case 1: y = f; break;
-            case 2: z = f; break;
+            case 0: x = f; return;
+            case 1: y = f; return;
+            case 2: z = f; return;
         }
 
         throw new IllegalArgumentException("Invalid index " + i);
