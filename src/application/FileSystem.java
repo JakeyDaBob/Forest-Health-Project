@@ -8,16 +8,34 @@ import java.io.FileWriter;
 
 import java.io.IOException;
 
-public class FileInfo
+public class FileSystem
 {
-    static final String PathBase = System.getProperty("user.dir") + "\\" + "src/resources/";
+    static final String PathBaseMain = System.getProperty("user.dir") + "\\";
+    static final String PathResources = PathBaseMain + "src/resources/";
+    static final String PathBaseAbove = PathBaseMain + "../";
 
-    public static String GetPath(String pathRelative)
+    public static FileSystem Base = new FileSystem(PathBaseMain);
+    public static FileSystem Resources = new FileSystem(PathResources);
+    public static FileSystem Above = new FileSystem(PathBaseAbove);
+
+    public final String pathBase;
+
+    public static String CheckSys(FileSystem fs)
     {
-        return PathBase + pathRelative;
+        return "Check: '" + fs.pathBase + "'\n";
     }
 
-    public static void WriteAllLines(String pathRelative, String text)
+    public FileSystem(String pathBase)
+    {
+        this.pathBase = pathBase;
+    }
+
+    public String GetPath(String pathRelative)
+    {
+        return pathBase + pathRelative;
+    }
+
+    public void WriteAllLines(String pathRelative, String text)
     {
         String path = GetPath(pathRelative);
 
@@ -31,7 +49,7 @@ public class FileInfo
         }
     }
 
-    public static String ReadAllLines(String pathRelative)
+    public String ReadAllLines(String pathRelative)
     {
         String path = GetPath(pathRelative);
 
