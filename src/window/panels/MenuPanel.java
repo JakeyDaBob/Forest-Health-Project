@@ -2,8 +2,11 @@ package window.panels;
 
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 
 import application.AppInfo;
+import window.MenuManager;
+import window.MenuState;
 import window.WindowUtil;
 
 public class MenuPanel extends JLayeredPane
@@ -26,6 +29,14 @@ public class MenuPanel extends JLayeredPane
 
         int buttonHeight = 100;
         JButton buttonRecordData = WindowUtil.CreateButton("New Data Record", getWidth()/2, getHeight()/4, (int)(getWidth()*0.6f), buttonHeight, Color.black, Color.white);
+        buttonRecordData.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                MenuManager.SetState(MenuState.DataRecordCreate);
+            }
+        });
         add(buttonRecordData, JLayeredPane.MODAL_LAYER);
 
         JButton buttonViewDataRecords = WindowUtil.CreateButton("View Records", getWidth()/2, (int)(getHeight()/4+((buttonHeight*1*1.5))), (int)(getWidth()*0.6f), buttonHeight, Color.black, Color.white);

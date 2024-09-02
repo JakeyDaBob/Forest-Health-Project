@@ -5,13 +5,12 @@ import javax.swing.*;
 
 import application.AppInfo;
 import generic.Vector2Int;
+import window.panels.DataRecordCreate;
 import window.panels.MenuPanel;
 import window.panels.SplashPanel;
 
 public class MenuManager
 {
-    
-
     int progress;
     Timer timer;
     static JFrame window;
@@ -51,6 +50,7 @@ public class MenuManager
         {
             case Splash: return new SplashPanel(window);
             case Menu: return new MenuPanel(window);
+            case DataRecordCreate: return new DataRecordCreate(window);
             default: return null;
         }
     }
