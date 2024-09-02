@@ -2,7 +2,10 @@ package generic;
 
 import java.io.Serializable;
 
-public class Vector3 implements Serializable
+import org.json.JObjectable;
+import org.json.JSONObject;
+
+public class Vector3 implements Serializable, JObjectable
 {
     public float x, y, z;
 
@@ -52,6 +55,28 @@ public class Vector3 implements Serializable
     public float Magnitude()
     {
         return Vector3.Distance(new Vector3(), this);
+    }
+
+    @Override
+    public JSONObject toJson()
+    {
+        JSONObject obj = new JSONObject();
+
+        for (int i = 0; i < 3; i++)
+        {
+            obj.put(""+"xyz".charAt(i), get(i));
+        }
+
+        return obj;
+    }
+
+    @Override
+    public void fromJson(JSONObject obj)
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            set(i, obj.optFloat((""+"xyz".charAt(i))));
+        }
     }
 
     public static Vector3 Normalised(Vector3 v)
