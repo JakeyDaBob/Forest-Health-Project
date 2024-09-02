@@ -3,24 +3,14 @@ package graphics;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.InputStream;
-
-import javax.imageio.ImageIO;
 
 public class DrawImage extends JPanel
 {
     private BufferedImage image;
 
-    public DrawImage(InputStream inputStream)
+    public DrawImage(BufferedImage image)
     {
-        try
-        {
-            image = ImageIO.read(inputStream);
-        }
-        catch (Exception ex)
-        {
-            System.out.println("Failed to load image: " + ex.getMessage());
-        }
+        this.image = image;
     }
 
     @Override

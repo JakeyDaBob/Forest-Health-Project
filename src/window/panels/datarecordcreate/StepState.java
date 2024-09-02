@@ -2,24 +2,31 @@ package window.panels.datarecordcreate;
 
 public class StepState
 {
-    public boolean done;
+    public Result result;
     public String comment;
     
-    public StepState(boolean done, String comment)
+    public StepState(Result result, String comment)
     {
-        this.done = done;
+        this.result = result;
         this.comment = comment;
     }
 
-    public StepState(boolean done)
+    public StepState(Result result)
     {
-        this.done = done;
+        this.result = result;
         this.comment = "";
     }
 
     @Override
     public String toString()
     {
-        return "StepState(" + done + ", '" + comment + "'')";
+        return "StepState(" + result + ", '" + comment + "'')";
+    }
+
+    public enum Result
+    {
+        Back,
+        Incomplete,
+        Done,
     }
 }

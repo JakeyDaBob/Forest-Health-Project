@@ -13,11 +13,5 @@ public class StepTemplate extends StepPanel
     public String GetStepName()
     {
         return "Template Step";
-    } 
-
-    @Override
-    public StepState GetState()
-    {
-        return new StepState(false, "Developer is a sigma");
     }
 }

@@ -5,15 +5,21 @@ import window.MenuManager;
 import window.MenuState;
 import window.WindowUtil;
 import application.FileSystem;
+import datarecord.DataRecord;
+import datarecord.Image;
 
 import java.awt.Color;
 import java.util.Random;
 import javax.swing.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.time.LocalDateTime;
 
 public class StepTakePhoto extends StepPanel
 {
     DrawImage image;
+    BufferedImage imageData;
+    String imageName;
 
     public StepTakePhoto(JLayeredPane parentPanel, DataContext context)
     {
@@ -21,19 +27,35 @@ public class StepTakePhoto extends StepPanel
 
         Random random = new Random();
         String[] imagePaths = FileSystem.Resources.GetAllFilesInDirectory("photos");
-        String imagePath = "photos/"+imagePaths[random.nextInt(imagePaths.length)];
+        String imageFileName = imagePaths[random.nextInt(imagePaths.length)];
+        String imagePath = "photos/"+imageFileName;
 
-        image = new DrawImage(FileSystem.Resources.GetInputStream(imagePath));
+        imageData = FileSystem.Resources.GetImage(imagePath);
+        image = new DrawImage(imageData);
         image.setBounds(0, 0, getWidth(), getHeight());
         add(image, JLayeredPane.DEFAULT_LAYER);
 
-        JButton button = WindowUtil.CreateButton("CAPTURE", getWidth()/2, getHeight()-(getHeight()/8), getWidth()/3, 100, new Color(0,0,0,128), Color.white);
+        JButton button = WindowUtil.CreateButton("CAPTURE", getWidth()/2, getHeight()-(getHeight()/5), getWidth()/3, 100, new Color(0,0,0,128), Color.white);
         button.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                SetState(new StepState(true));
+                context.image = imageData;
+
+                DataRecord record = context.record;
+
+                record.image = new Image();
+                record.image.name = imageFileName;
+
+                Random random = new Random();
+                record.geolocationLatitude = -28.2383 + random.nextDouble(-0.2,0.2);
+                record.geolocationLongitude = 153.1972 + random.nextDouble(-0.2,0.2);
+
+                record.dateTime = LocalDateTime.now();
+
+                System.out.println("IMAGE NAME: " + context.record.image.name);
+                SetState(new StepState(StepState.Result.Done));
             }
         });
         add(button, JLayeredPane.MODAL_LAYER);
@@ -44,10 +66,4 @@ public class StepTakePhoto extends StepPanel
     {
         return "Take Photo";
     } 
-
-    @Override
-    public StepState GetState()
-    {
-        return new StepState(false, "Developer is a sigma");
-    }
 }

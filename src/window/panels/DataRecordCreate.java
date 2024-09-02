@@ -16,6 +16,8 @@ public class DataRecordCreate extends JLayeredPane
 
     DataContext context;
 
+    int stepId;
+
     public DataRecordCreate(JFrame window)
     {
         setSize(window.getWidth(), window.getHeight());
@@ -35,33 +37,67 @@ public class DataRecordCreate extends JLayeredPane
         holder.setBounds(0, 0, window.getWidth(), window.getHeight());
         add(holder, JLayeredPane.PALETTE_LAYER);
         
-        DataContext context = new DataContext();
+        context = new DataContext();
         
         stepPanel = new JLayeredPane();
         stepPanel.setBounds(0,0,getWidth(),getHeight());
 
         holder.add(stepPanel, JLayeredPane.PALETTE_LAYER);
 
-        SetStep(new StepTakePhoto(holder, context));
-
+        stepId = 0;
+        SetStepFromId(stepId);
     }
 
     void OnStepState(StepState stepState)
     {
         System.out.println("State = " + stepState);
+        
+        int stepIdNew = stepId;
+        if (stepState.result == StepState.Result.Done)
+        {
+            stepIdNew++;
+        }
+        else if (stepState.result == StepState.Result.Back)
+        {
+            stepIdNew--;
+        }
+
+        if (stepIdNew != stepId)
+        {
+            stepId = stepIdNew;
+            SetStepFromId(stepId);
+        }
+    }
+
+    void SetStepFromId(int stepId)
+    {
+        SetStep(CreateStep(stepId));
     }
 
     void SetStep(StepPanel step)
     {
         holder.remove(stepPanel);
+        stepPanel = null;
         stepPanel = step;
 
-        add(stepPanel, JLayeredPane.PALETTE_LAYER);
+        holder.add(stepPanel, JLayeredPane.PALETTE_LAYER);
         
         titleLabel.setText(step.GetStepName());
 
         step.SetOnState(() -> { OnStepState(step.getState()); });
 
+        holder.revalidate();
         repaint();
+    }
+
+    StepPanel CreateStep(int stepId)
+    {
+        switch (stepId)
+        {
+            case 0: return new StepTakePhoto(holder, context);
+            case 1: return new StepPreviewPhoto(holder, context);
+        }
+
+        return null;
     }
 }

@@ -16,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.io.File;
+import javax.imageio.ImageIO;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -25,6 +26,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 
 public class FileSystem
@@ -52,6 +55,23 @@ public class FileSystem
     public String GetPath(String pathRelative)
     {
         return pathBase + pathRelative;
+    }
+
+    public BufferedImage GetImage(String pathRelative)
+    {
+        InputStream inputStream = GetInputStream(pathRelative);
+
+        BufferedImage image = null;
+        try
+        {
+            image = ImageIO.read(inputStream);
+        }
+        catch (IOException ex)
+        {
+            LogError(ex, pathRelative);
+        }
+
+        return image;
     }
 
     public InputStream GetInputStream(String pathRelative)
