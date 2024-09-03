@@ -5,6 +5,8 @@ import javax.swing.*;
 
 import generic.Vector2Int;
 
+import window.elements.*;
+
 public class WindowUtil
 {
     public static final Vector2Int AspectRatio = new Vector2Int(9, 16);
@@ -26,18 +28,20 @@ public class WindowUtil
         return new Vector2Int((int)ToolkitMain.getScreenSize().getWidth(), (int)ToolkitMain.getScreenSize().getHeight());
     }
 
-    public static JButton CreateButton(String buttonText, int x, int y, int width, int height, Color backgroundColor, Color textColor)
+    public static JButtonWithData CreateButton(String buttonText, int x, int y, int width, int height, Color backgroundColor, Color textColor)
     {
-        JButton button = new JButton(buttonText);
-
+        JButtonWithData button = new JButtonWithData();
+        
+        button.setText(buttonText);
         button.setBackground(backgroundColor);
         button.setForeground(textColor);
 
         if (backgroundColor.getAlpha() < 255)
         {
             button.setOpaque(false);
-            button.setFocusPainted(false);
         }
+
+        button.setFocusPainted(false);
         
 
         button.setBounds(x - (width / 2), y - (height / 2), width, height);
@@ -89,5 +93,30 @@ public class WindowUtil
     public static double GetScaleFactor()
     {
         return WindowHeightPercentage;
+    }
+
+    public static String FormatCodeString(String strInput)
+    {
+        String strOut = "";
+        int len = strInput.length();
+
+        boolean lastCharCase = true;
+
+        for (int i = 0; i < len; i++)
+        {
+            char c = strInput.charAt(i);
+
+            boolean charCase = Character.isUpperCase(c);
+
+            if (charCase && !lastCharCase)
+            {
+                strOut += " ";
+            }
+            strOut += c;
+
+            lastCharCase = charCase;
+        }
+
+        return strOut;
     }
 }

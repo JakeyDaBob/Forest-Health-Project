@@ -1,6 +1,8 @@
 package window.panels.datarecordcreate;
 
-import javax.swing.JLayeredPane;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
 public class StepTemplate extends StepPanel
 {

@@ -26,7 +26,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 
 
@@ -40,11 +39,6 @@ public class FileSystem
 
     public Type type;
     public String pathBase;
-
-    public static String CheckSys(FileSystem fs)
-    {
-        return "Check: '["+ fs.type +"] " + fs.pathBase + "'\n";
-    }
 
     public FileSystem(Type type, String pathBase)
     {
