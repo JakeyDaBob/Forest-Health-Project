@@ -9,6 +9,7 @@ import graphics.ColoredPanel;
 import graphics.DrawImage;
 import window.WindowUtil;
 import window.elements.*;
+import java.util.Arrays;
 
 public class StepDescribeLandscape extends StepPanel
 {
@@ -20,7 +21,8 @@ public class StepDescribeLandscape extends StepPanel
 
     JButtonWithData[] buttons;
     JButtonWithData buttonConfirm;
-    int idSelected = -1;
+
+    OptionSelectPanel optionSelectPanel;
 
     public StepDescribeLandscape(JLayeredPane parentPanel, DataContext context)
     {
@@ -35,36 +37,17 @@ public class StepDescribeLandscape extends StepPanel
         box.setVisible(true);
         add(box, JLayeredPane.PALETTE_LAYER);
 
-        var landscapePositions = DataRecord.LandscapePosition.values();
-
-        JPanel buttonPanel = new JPanel(null);
-        buttonPanel.setOpaque(false);
-        buttonPanel.setBackground(new Color(0,0,0,0));
-        buttonPanel.setBounds(0,150,getWidth(), 600);
-        add(buttonPanel, JLayeredPane.MODAL_LAYER);
-
-        buttons = new JButtonWithData[landscapePositions.length];
-
-        for (int i = 0; i < landscapePositions.length; i++)
+        optionSelectPanel = new OptionSelectPanel(DataRecord.LandscapePosition.values(), new Rectangle(0, 100, getWidth(), 600));
+        optionSelectPanel.addActionListener(new ActionListener()
         {
-            String text = WindowUtil.FormatCodeString(landscapePositions[i].toString());
-
-            var button = WindowUtil.CreateButton(text, getWidth()/2, 50+(120*i), getWidth()/2, 100, Color.black, Color.white);
-            button.setFont(new Font(WindowUtil.FontMainName, Font.PLAIN, 36));
-            button.addActionListener(new ActionListener()
+            @Override
+            public void actionPerformed(ActionEvent e)
             {
-                @Override
-                public void actionPerformed(ActionEvent e)
-                {
-                    OnButtonPress(button);   
-                }
-            });
-
-            button.setData(i);
-
-            buttons[i] = button;
-            buttonPanel.add(button);
-        }
+                OnOptionSelected();
+            }
+        });
+        add(optionSelectPanel, JLayeredPane.MODAL_LAYER);
+        
 
         buttonConfirm = WindowUtil.CreateButton("CONFIRM", getWidth()/2, getHeight()-(getHeight()/5), (int)(getWidth()/1.3), 150, new Color(0,0,0,128), Color.white);
         buttonConfirm.setFont(new Font(WindowUtil.FontMainName, Font.PLAIN, 40));
@@ -77,48 +60,25 @@ public class StepDescribeLandscape extends StepPanel
             }
         });
         add(buttonConfirm, JLayeredPane.MODAL_LAYER);
-
-        SetSelectedId(-1);
     }
 
-    void OnButtonPress(JButtonWithData button)
+    void OnOptionSelected()
     {
-        int id = button.getData();
-        if (idSelected == id)
-        {
-            idSelected = -1;
-        }
-        else
-        {
-            idSelected = id;
-        }
-
-
-        SetSelectedId(idSelected);
-    }
-
-    void SetSelectedId(int id)
-    {
-        for (int i = 0; i < buttons.length; i++)
-        {
-            boolean selected = i == id;
-            Color color = selected ? colorSelected : colorDeselected;
-            buttons[i].setBackground(color);
-        }
-
+        int id = optionSelectPanel.getIdSelected();
         buttonConfirm.setForeground(id != -1 ? colorConfirmValid : colorConfirmInvalid);
     }
 
     void TryConfirm()
     {
-        boolean valid = idSelected != -1;
+        int id = optionSelectPanel.getIdSelected();
+        boolean valid = id != -1;
         if (!valid)
         {
             SetState(new StepState(StepState.Result.Incomplete, "Select an option"));
             return;
         }
 
-        context.record.landscapePosition = LandscapePosition.values()[idSelected];
+        context.record.landscapePosition = LandscapePosition.values()[id];
         System.out.println("Landscape = " + context.record.landscapePosition);
 
         SetState(new StepState(StepState.Result.Done));
