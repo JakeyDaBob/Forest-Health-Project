@@ -9,13 +9,9 @@ import graphics.ColoredPanel;
 import graphics.DrawImage;
 import window.WindowUtil;
 import window.elements.*;
-import java.util.Arrays;
 
 public class StepDescribeLandscape extends StepPanel
 {
-    final Color colorDeselected = new Color(0,0,0,64);
-    final Color colorSelected = new Color(66, 173, 38, 128);
-
     final Color colorConfirmValid = Color.white;
     final Color colorConfirmInvalid = new Color(128,128,128);
 
@@ -37,7 +33,11 @@ public class StepDescribeLandscape extends StepPanel
         box.setVisible(true);
         add(box, JLayeredPane.PALETTE_LAYER);
 
-        optionSelectPanel = new OptionSelectPanel(DataRecord.LandscapePosition.values(), new Rectangle(0, 100, getWidth(), 600));
+        JLabel labelTitle = WindowUtil.CreateLabel("Landscape Position", 0, 80, getWidth(), 50, Color.white);
+        labelTitle.setFont(new Font(WindowUtil.FontMainName, Font.PLAIN, 35));
+        add(labelTitle, JLayeredPane.MODAL_LAYER);
+
+        optionSelectPanel = new OptionSelectPanel(DataRecord.LandscapePosition.values(), new Rectangle(0, 150, getWidth(), 600), getWidth()/2, 100, 36);
         optionSelectPanel.addActionListener(new ActionListener()
         {
             @Override
@@ -64,13 +64,13 @@ public class StepDescribeLandscape extends StepPanel
 
     void OnOptionSelected()
     {
-        int id = optionSelectPanel.getIdSelected();
+        int id = optionSelectPanel.getId();
         buttonConfirm.setForeground(id != -1 ? colorConfirmValid : colorConfirmInvalid);
     }
 
     void TryConfirm()
     {
-        int id = optionSelectPanel.getIdSelected();
+        int id = optionSelectPanel.getId();
         boolean valid = id != -1;
         if (!valid)
         {

@@ -16,14 +16,14 @@ public class OptionSelectPanel extends JPanel
     JButtonWithData[] buttons;
     int idSelected = -1;
 
-    public int getIdSelected()
+    public int getId()
     {
         return idSelected;
     }
 
     EventListenerList eventListenerList;
 
-    public OptionSelectPanel(Object[] optionObjects, Rectangle rect)
+    public OptionSelectPanel(Object[] optionObjects, Rectangle rect, int buttonWidth, int buttonHeight, int fontSize)
     {
         super(null);
 
@@ -41,8 +41,8 @@ public class OptionSelectPanel extends JPanel
         {
             String text = WindowUtil.FormatCodeString(optionStrings[i]);
 
-            var button = WindowUtil.CreateButton(text, getWidth()/2, 50+(120*i), getWidth()/2, 100, Color.black, Color.white);
-            button.setFont(new Font(WindowUtil.FontMainName, Font.PLAIN, 36));
+            var button = WindowUtil.CreateButton(text, getWidth()/2, 50+((buttonHeight+20)*i), buttonWidth, buttonHeight, Color.black, Color.white);
+            button.setFont(new Font(WindowUtil.FontMainName, Font.PLAIN, fontSize));
             button.addActionListener(new ActionListener()
             {
                 @Override
@@ -82,7 +82,7 @@ public class OptionSelectPanel extends JPanel
         SetSelectedId(idSelected);
     }
 
-    void SetSelectedId(int id)
+    public void SetSelectedId(int id)
     {
         for (int i = 0; i < buttons.length; i++)
         {

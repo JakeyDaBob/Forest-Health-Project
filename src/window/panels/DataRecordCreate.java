@@ -50,7 +50,7 @@ public class DataRecordCreate extends JLayeredPane
 
         holder.add(stepPanel, JLayeredPane.PALETTE_LAYER);
 
-        stepId = 2;
+        stepId = 0;
         SetStepFromId(stepId);
     }
 
@@ -109,6 +109,7 @@ public class DataRecordCreate extends JLayeredPane
             case 0: return new StepTakePhoto(holder, context);
             case 1: return new StepPreviewPhoto(holder, context);
             case 2: return new StepDescribeLandscape(holder, context);
+            case 3: return new StepVegetation(holder, context);
         }
 
         return null;
