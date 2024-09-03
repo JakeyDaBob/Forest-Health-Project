@@ -33,7 +33,9 @@ public class StepPreviewPhoto extends StepPanel
         labelGeoPosTitle.setFont(new Font(WindowUtil.FontMainName, Font.ITALIC, 30));
         textPanel.add(labelGeoPosTitle, JLayeredPane.MODAL_LAYER);
 
-        String geoPos = context.record.geolocationLatitude + ", " + context.record.geolocationLongitude;
+        String geoPosLat = String.format("%.5f", context.record.geolocationLatitude);
+        String geoPosLong = String.format("%.5f", context.record.geolocationLongitude);
+        String geoPos = geoPosLat + ", " + geoPosLong;
         JLabel labelGeoPos = WindowUtil.CreateLabel(geoPos, 0,150,getWidth(), 50,Color.white);
         labelGeoPos.setFont(new Font(WindowUtil.FontMainName, Font.PLAIN, 25));
         textPanel.add(labelGeoPos, JLayeredPane.MODAL_LAYER);

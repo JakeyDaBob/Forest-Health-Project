@@ -1,8 +1,6 @@
 package window.panels.datarecordcreate;
 
 import graphics.DrawImage;
-import window.MenuManager;
-import window.MenuState;
 import window.WindowUtil;
 import application.FileSystem;
 import datarecord.DataRecord;
