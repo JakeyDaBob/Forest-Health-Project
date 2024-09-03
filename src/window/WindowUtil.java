@@ -35,13 +35,6 @@ public class WindowUtil
         button.setText(buttonText);
         button.setBackground(backgroundColor);
         button.setForeground(textColor);
-
-        if (backgroundColor.getAlpha() < 255)
-        {
-            button.setOpaque(false);
-        }
-
-        button.setFocusPainted(false);
         
 
         button.setBounds(x - (width / 2), y - (height / 2), width, height);

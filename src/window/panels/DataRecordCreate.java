@@ -2,6 +2,7 @@ package window.panels;
 
 import window.WindowUtil;
 import window.panels.datarecordcreate.*;
+import window.elements.*;
 import java.awt.*;
 import javax.swing.*;
 
@@ -13,6 +14,7 @@ public class DataRecordCreate extends JLayeredPane
 
     JLayeredPane holder;
     JLayeredPane stepPanel;
+    PopupPanel popupPanel;
 
     DataContext context;
 
@@ -31,11 +33,15 @@ public class DataRecordCreate extends JLayeredPane
         titleLabel.setBackground(new Color(0,0,0,100));
         titleLabel.setOpaque(true);
         titleLabel.setFont(new Font(WindowUtil.FontMainName, Font.BOLD, 42));
-        add(titleLabel, JLayeredPane.POPUP_LAYER);
+        add(titleLabel, JLayeredPane.MODAL_LAYER);
 
         holder = new JLayeredPane();
         holder.setBounds(0, 0, window.getWidth(), window.getHeight());
         add(holder, JLayeredPane.PALETTE_LAYER);
+
+        popupPanel = new PopupPanel();
+        popupPanel.setBounds(0,0,getWidth(), 60);
+        add(popupPanel, JLayeredPane.POPUP_LAYER);
         
         context = new DataContext();
         
@@ -61,6 +67,10 @@ public class DataRecordCreate extends JLayeredPane
         {
             stepIdNew--;
         }
+        else
+        {
+            popupPanel.Do(stepState.comment);
+        }
 
         if (stepIdNew != stepId)
         {
@@ -76,6 +86,8 @@ public class DataRecordCreate extends JLayeredPane
 
     void SetStep(StepPanel step)
     {
+        popupPanel.setVisible(false);
+
         holder.remove(stepPanel);
         stepPanel = null;
         stepPanel = step;

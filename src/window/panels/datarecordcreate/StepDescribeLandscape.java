@@ -5,29 +5,40 @@ import java.awt.*;
 import java.awt.event.*;
 import datarecord.*;
 import datarecord.DataRecord.LandscapePosition;
+import graphics.ColoredPanel;
+import graphics.DrawImage;
 import window.WindowUtil;
 import window.elements.*;
 
 public class StepDescribeLandscape extends StepPanel
 {
-    final Color colorDeselected = Color.black;
-    final Color colorSelected = new Color(66, 173, 38);
+    final Color colorDeselected = new Color(0,0,0,64);
+    final Color colorSelected = new Color(66, 173, 38, 128);
 
     final Color colorConfirmValid = Color.white;
-    final Color colorConfirmInvalid = new Color(40,40,40);
+    final Color colorConfirmInvalid = new Color(128,128,128);
 
     JButtonWithData[] buttons;
-    JButton buttonConfirm;
+    JButtonWithData buttonConfirm;
     int idSelected = -1;
 
     public StepDescribeLandscape(JLayeredPane parentPanel, DataContext context)
     {
         super(parentPanel, context);
 
+        DrawImage image = new DrawImage(context.image);
+        image.setBounds(0,0,getWidth(),getHeight());
+        add(image, JLayeredPane.DEFAULT_LAYER);
+
+        ColoredPanel box = new ColoredPanel(new Color(0,0,0,200));
+        box.setBounds(0,0,getWidth(),getHeight());
+        box.setVisible(true);
+        add(box, JLayeredPane.PALETTE_LAYER);
+
         var landscapePositions = DataRecord.LandscapePosition.values();
 
         JPanel buttonPanel = new JPanel(null);
-        buttonPanel.setOpaque(true);
+        buttonPanel.setOpaque(false);
         buttonPanel.setBackground(new Color(0,0,0,0));
         buttonPanel.setBounds(0,150,getWidth(), 600);
         add(buttonPanel, JLayeredPane.MODAL_LAYER);
@@ -52,10 +63,10 @@ public class StepDescribeLandscape extends StepPanel
             button.setData(i);
 
             buttons[i] = button;
-            buttonPanel.add(buttons[i]);
+            buttonPanel.add(button);
         }
 
-        buttonConfirm = WindowUtil.CreateButton("CONFIRM", getWidth()/2, getHeight()-(getHeight()/5), (int)(getWidth()/1.5f), 150, Color.black, Color.white);
+        buttonConfirm = WindowUtil.CreateButton("CONFIRM", getWidth()/2, getHeight()-(getHeight()/5), (int)(getWidth()/1.3), 150, new Color(0,0,0,128), Color.white);
         buttonConfirm.setFont(new Font(WindowUtil.FontMainName, Font.PLAIN, 40));
         buttonConfirm.addActionListener(new ActionListener()
         {
@@ -65,7 +76,7 @@ public class StepDescribeLandscape extends StepPanel
                 TryConfirm();
             }
         });
-        add(buttonConfirm);
+        add(buttonConfirm, JLayeredPane.MODAL_LAYER);
 
         SetSelectedId(-1);
     }

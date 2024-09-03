@@ -1,8 +1,8 @@
 package window.elements;
 
-import javax.swing.*;
+import java.awt.*;
 
-public class JButtonWithData extends JButton
+public class JButtonWithData extends JButtonRounded
 {
     private int data;
     public int getData()
@@ -14,15 +14,9 @@ public class JButtonWithData extends JButton
         this.data=data;
     }
 
-    public JButtonWithData(int data)
-    {
-        super();
-        this.data = data;
-    }
-
     public JButtonWithData()
     {
-        super();
+        super(25);
         this.data=0;
     }
 }
