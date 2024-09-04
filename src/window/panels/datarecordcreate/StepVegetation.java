@@ -39,7 +39,7 @@ public class StepVegetation extends StepPanel
         labelTypeTitle.setFont(new Font(WindowUtil.FontMainName, Font.PLAIN, 25));
         add(labelTypeTitle, JLayeredPane.MODAL_LAYER);
 
-        optionsType = new OptionSelectPanel(DataRecord.VegetationType.values(), new Rectangle(20, 150, (int)(getWidth()/scalar), 600), (int)(getWidth()/scalar), 80, 16);
+        optionsType = new OptionSelectPanel(DataRecord.VegetationType.values(), new Rectangle(20, 150, (int)(getWidth()/scalar), 600), (int)(getWidth()/scalar), 16);
         optionsType.addActionListener(new ActionListener()
         {
             @Override
@@ -55,7 +55,7 @@ public class StepVegetation extends StepPanel
         labelStageTitle.setFont(new Font(WindowUtil.FontMainName, Font.PLAIN, 25));
         add(labelStageTitle, JLayeredPane.MODAL_LAYER);
 
-        optionsStage = new OptionSelectPanel(DataRecord.VegetationDevelopmentStage.values(), new Rectangle(getWidth()-(int)(getWidth()/scalar)-40, 150, (int)(getWidth()/scalar), 600), (int)(getWidth()/scalar), 80, 16);
+        optionsStage = new OptionSelectPanel(DataRecord.VegetationDevelopmentStage.values(), new Rectangle(getWidth()-(int)(getWidth()/scalar)-40, 150, (int)(getWidth()/scalar), 600), (int)(getWidth()/scalar), 16);
         optionsStage.addActionListener(new ActionListener()
         {
             @Override

@@ -110,6 +110,12 @@ public class DataRecordCreate extends JLayeredPane
             case 1: return new StepPreviewPhoto(holder, context);
             case 2: return new StepDescribeLandscape(holder, context);
             case 3: return new StepVegetation(holder, context);
+            case 4: return new StepBurnSeverity(holder, context);
+            case 5: return new StepRecoveryLayerGround(holder, context);
+            case 6: return new StepRecoveryLayerShrub(holder, context);
+            case 7: return new StepRecoveryLayerLowerCanopy(holder, context);
+            case 8: return new StepRecoveryLayerUpperCanopy(holder, context);
+            case 9: return new StepRecoveryLayerEmergantLayer(holder, context);
         }
 
         return null;

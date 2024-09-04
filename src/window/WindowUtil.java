@@ -87,29 +87,4 @@ public class WindowUtil
     {
         return WindowHeightPercentage;
     }
-
-    public static String FormatCodeString(String strInput)
-    {
-        String strOut = "";
-        int len = strInput.length();
-
-        boolean lastCharCase = true;
-
-        for (int i = 0; i < len; i++)
-        {
-            char c = strInput.charAt(i);
-
-            boolean charCase = Character.isUpperCase(c);
-
-            if (charCase && !lastCharCase)
-            {
-                strOut += " ";
-            }
-            strOut += c;
-
-            lastCharCase = charCase;
-        }
-
-        return strOut;
-    }
 }

@@ -2,7 +2,6 @@ package window.panels.datarecordcreate;
 
 import javax.swing.*;
 
-
 public abstract class StepPanel extends JLayeredPane
 {
     private Runnable OnState;

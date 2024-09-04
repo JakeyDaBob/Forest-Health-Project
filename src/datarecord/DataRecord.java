@@ -26,8 +26,9 @@ public class DataRecord extends JObjectableAuto
     public BurnSeverity burnSeverity;
     public RecoveryGroundLayer recoveryGround;
     public RecoveryShrubLayer recoveryShrub;
-    public RecoverySubCanopyLayer recoverySubCanopy;
-    public RecoveryEmergantLayer recoveryTallestTree;
+    public RecoveryLowerCanopyLayer recoveryLowerCanopy;
+    public RecoveryUpperCanopyLayer recoveryUpperCanopy;
+    public RecoveryEmergantLayer recoveryEmergantLayer;
 
     public FaunaRecord[] faunaRecords;
 
@@ -62,8 +63,8 @@ public class DataRecord extends JObjectableAuto
         burnSeverity = BurnSeverity.values()[random.nextInt(BurnSeverity.values().length)];
         recoveryGround = RecoveryGroundLayer.values()[random.nextInt(RecoveryGroundLayer.values().length)];
         recoveryShrub = RecoveryShrubLayer.values()[random.nextInt(RecoveryShrubLayer.values().length)];
-        recoverySubCanopy = RecoverySubCanopyLayer.values()[random.nextInt(RecoverySubCanopyLayer.values().length)];
-        recoveryTallestTree = RecoveryEmergantLayer.values()[random.nextInt(RecoveryEmergantLayer.values().length)];
+        recoveryLowerCanopy = RecoveryLowerCanopyLayer.values()[random.nextInt(RecoveryLowerCanopyLayer.values().length)];
+        recoveryEmergantLayer = RecoveryEmergantLayer.values()[random.nextInt(RecoveryEmergantLayer.values().length)];
 
         List<FaunaRecord> faunaRecordsList = new ArrayList<>();
         for (int i = 0; i < 3; i++)
@@ -137,12 +138,20 @@ public class DataRecord extends JObjectableAuto
         NoShrubLayerPresent
     }
 
-    public enum RecoverySubCanopyLayer
+    public enum RecoveryLowerCanopyLayer
     {
         Unburnt,
         ShootsPresent,
         NoShootsPresent,
-        NoSubCanopyPresent
+        NoLowerCanopyPresent
+    }
+
+    public enum RecoveryUpperCanopyLayer
+    {
+        Unburnt,
+        ShootsPresent,
+        NoShootsPresent,
+        NoUpperCanopyPresent
     }
 
     public enum RecoveryEmergantLayer
@@ -152,6 +161,20 @@ public class DataRecord extends JObjectableAuto
         EpicormicShootsPresent,
         EpicormicAndBasalShootsPresent,
         NoEpicormicOrBasalShootsPresent
+    }
+
+    public static Class<?> GetLayerRecovery(int layerIndex)
+    {
+        switch (layerIndex)
+        {
+            case 0: return RecoveryGroundLayer.class;
+            case 1: return RecoveryShrubLayer.class;
+            case 2: return RecoveryLowerCanopyLayer.class;
+            case 3: return RecoveryUpperCanopyLayer.class;
+            case 4: return RecoveryEmergantLayer.class;
+        }
+
+        throw new IllegalArgumentException("Invalid layer index " + layerIndex);
     }
 
     public enum Layers

@@ -1,7 +1,5 @@
 package window.elements;
 
-import java.awt.*;
-
 public class JButtonWithData extends JButtonRounded
 {
     private int data;
