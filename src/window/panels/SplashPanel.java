@@ -51,7 +51,7 @@ public class SplashPanel extends JLayeredPane
         add(labelCredits, JLayeredPane.MODAL_LAYER);
 
         //move to menu after 3 seconds
-        timer = new Timer(100, new ActionListener() 
+        timer = new Timer(1000, new ActionListener() 
         {
             @Override
             public void actionPerformed(ActionEvent e) 

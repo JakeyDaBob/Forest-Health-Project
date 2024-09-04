@@ -5,6 +5,6 @@ public class Main
 {
     public static void main(String[] args)
     {
-        MenuManager.Innit(MenuState.DataRecordCreate);
+        MenuManager.Innit(MenuState.Splash);
     }
 }

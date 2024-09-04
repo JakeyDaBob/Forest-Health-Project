@@ -5,6 +5,7 @@ import window.WindowUtil;
 import application.FileSystem;
 import datarecord.DataRecord;
 import datarecord.Image;
+import generic.Vector3;
 
 import java.awt.Color;
 import java.util.Random;
@@ -51,6 +52,12 @@ public class StepTakePhoto extends StepPanel
                 record.geolocationLongitude = 153.1972 + random.nextDouble(-0.2,0.2);
 
                 record.dateTime = LocalDateTime.now();
+
+                record.altitudeMeters = random.nextInt(1,1000);
+                record.compassDirectionDegree = random.nextInt(360);
+                record.barometricPressureAtm = 1.00 -random.nextDouble(0.56);
+
+                record.accelerometerData = new Vector3(random.nextFloat(-0.1f,1f),random.nextFloat(-0.2f,2f), random.nextFloat(-0.1f,1f));
 
                 System.out.println("IMAGE NAME: " + context.record.image.name);
                 SetState(new StepState(StepState.Result.Done));

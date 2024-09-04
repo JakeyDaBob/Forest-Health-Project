@@ -6,6 +6,8 @@ import window.elements.*;
 import java.awt.*;
 import javax.swing.*;
 
+import datarecord.DataRecord.BurnSeverity;
+
 public class DataRecordCreate extends JLayeredPane
 {
     Timer timer;
@@ -61,7 +63,7 @@ public class DataRecordCreate extends JLayeredPane
         int stepIdNew = stepId;
         if (stepState.result == StepState.Result.Done)
         {
-            stepIdNew++;
+            stepIdNew = GetNextStep(stepId);
         }
         else if (stepState.result == StepState.Result.Back)
         {
@@ -77,6 +79,17 @@ public class DataRecordCreate extends JLayeredPane
             stepId = stepIdNew;
             SetStepFromId(stepId);
         }
+    }
+
+    int GetNextStep(int stepCurrent)
+    {
+        //Skip recovery information if the Burn Severity is Unburnt
+        if (stepCurrent == 4 && context.record.burnSeverity == BurnSeverity.Unburnt)
+        {
+            return 10;
+        }
+
+        return stepCurrent+1;
     }
 
     void SetStepFromId(int stepId)
@@ -116,6 +129,7 @@ public class DataRecordCreate extends JLayeredPane
             case 7: return new StepRecoveryLayerLowerCanopy(holder, context);
             case 8: return new StepRecoveryLayerUpperCanopy(holder, context);
             case 9: return new StepRecoveryLayerEmergantLayer(holder, context);
+            case 10: return new StepFloweringState(holder, context);
         }
 
         return null;

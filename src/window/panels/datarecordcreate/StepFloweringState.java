@@ -5,9 +5,9 @@ import datarecord.DataRecord;
 import datarecord.DataRecord.*;
 
 
-public class StepBurnSeverity extends StepChooseOption
+public class StepFloweringState extends StepChooseOption
 {
-    public StepBurnSeverity(JLayeredPane parentPanel, DataContext context)
+    public StepFloweringState(JLayeredPane parentPanel, DataContext context)
     {
         super(parentPanel, context);
     }
@@ -21,18 +21,18 @@ public class StepBurnSeverity extends StepChooseOption
     @Override
     public Object[] GetOptionObjects()
     {
-        return DataRecord.BurnSeverity.values();
+        return DataRecord.FloweringState.values();
     }
 
     @Override
     public String GetOptionName()
     {
-        return "Burn Severity";
+        return "Flowering State";
     }
 
     @Override
     public void OnComplete()
     {
-        context.record.burnSeverity = BurnSeverity.values()[optionSelectPanel.getId()];
+        context.record.floweringState = FloweringState.values()[optionSelectPanel.getId()];
     }
 }
