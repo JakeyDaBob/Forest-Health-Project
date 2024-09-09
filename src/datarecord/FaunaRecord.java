@@ -14,6 +14,13 @@ public class FaunaRecord implements JObjectable
 
     }
 
+    public FaunaRecord(String data, Type type, InteractionType interactionType)
+    {
+        this.data = data;
+        this.type = type;
+        this.interactionType = interactionType;
+    }
+
     public enum Type
     {
         SpeciesName,
@@ -42,5 +49,11 @@ public class FaunaRecord implements JObjectable
         type = Type.valueOf(obj.optString("type"));
         interactionType = InteractionType.valueOf(obj.optString("interactionType"));
         data = obj.optString("data");
+    }
+
+    @Override
+    public String toString()
+    {
+        return "[" + data + ", " + type + ", " + interactionType + "]";
     }
 }

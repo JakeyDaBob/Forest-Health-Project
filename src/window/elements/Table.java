@@ -2,6 +2,7 @@ package window.elements;
 
 import javax.swing.*;
 
+import generic.Vector2Int;
 import window.WindowUtil;
 
 import java.awt.*;
@@ -26,6 +27,8 @@ public class Table extends JLayeredPane
     Rectangle rowRect;
     List<Row> rows = new ArrayList<>();
     
+    public Runnable onCellClicked;
+    public Vector2Int onCellClickedPosition;
 
     public Table(int... widths)
     {
@@ -46,11 +49,8 @@ public class Table extends JLayeredPane
         rowRect = new Rectangle(0,0,x,RowHeight);
 
         Rectangle tableRect = new Rectangle(rowRect);
-        tableRect.y = (RowHeight+RowGap)*6;
+        tableRect.height = (RowHeight+RowGap)*10;
         setBounds(tableRect);
-
-        JLabel testLabel = WindowUtil.CreateLabel("test", 0, 100, getWidth(), 50, Color.white);
-        add(testLabel, JLayeredPane.MODAL_LAYER);
     }
 
     public void addRow(String... names)
@@ -70,7 +70,15 @@ public class Table extends JLayeredPane
         add(row, JLayeredPane.PALETTE_LAYER);
         rows.add(row);
 
-        System.out.println("Row add " + rows.size());
+        updateRows();
+    }
+
+    public void removeRow(int i)
+    {
+        Row row = rows.get(i);
+
+        rows.remove(i);
+        remove(row);
 
         updateRows();
     }
@@ -82,9 +90,44 @@ public class Table extends JLayeredPane
             Rectangle rect = new Rectangle(rowRect);
             rect.y = (RowGap + RowHeight) * i;
 
-            rows.get(i).setLocation(0, rect.y);
+            rows.get(i).setBounds(rect);
+        }
+    }
 
-            System.out.println("Set row bounds for " + i + ": " + rect);
+    Cell getCellAtPosition(Vector2Int position)
+    {
+        Row row = rows.get(position.y);
+        return row.getCell(position.x);
+    }
+
+    Vector2Int getPositionOfCell(Cell cell)
+    {
+        int y = 0;
+        for (int x = 0; x < columnRects.length; x++)
+        {
+            Vector2Int position = new Vector2Int(x,y);
+            Cell cellOther = getCellAtPosition(position);
+
+            if (cellOther == cell)
+            {
+                return position;
+            }
+        }
+
+        System.err.println("Failed to get position of cell");
+
+        return new Vector2Int(0,0);
+    }
+
+    void onCellClicked(Cell cell)
+    {
+        Vector2Int position = getPositionOfCell(cell);
+
+        onCellClickedPosition = position;
+
+        if (onCellClicked != null)
+        {
+            onCellClicked.run();
         }
     }
 
@@ -111,6 +154,16 @@ public class Table extends JLayeredPane
                 }
 
                 cells[i] = cell;
+                cells[i].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) 
+                    {
+                        if (cell.contains(e.getPoint()))
+                        {
+                            onCellClicked(cell);
+                        }
+                    }
+                });
                 this.add(cells[i], JLayeredPane.PALETTE_LAYER);
             }
         }
@@ -164,26 +217,27 @@ public class Table extends JLayeredPane
 
     public class CellButton extends Cell
     {
-        JButton button;
+        JLabel label;
 
         public CellButton(Rectangle rect)
         {
             super(rect);
 
-            button = WindowUtil.CreateButton("button", getWidth()/2, getHeight()/2, getWidth()/2, getHeight()/2, Color.black, Color.white);
-            add(button, JLayeredPane.MODAL_LAYER);
+            label = WindowUtil.CreateLabel("text", 0, 0, getWidth(), getHeight(), Color.white);
+            label.setFont(new Font(WindowUtil.FontMainName, Font.BOLD, 18));
+            add(label, JLayeredPane.MODAL_LAYER);
         }
 
         @Override
         public void setText(String text)
         {
-            button.setText(text);
+            label.setText(text);
         }
 
         @Override
         public String getText()
         {
-            return button.getText();
+            return label.getText();
         }
     }
 }

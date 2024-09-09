@@ -83,6 +83,22 @@ public class WindowUtil
         return label;
     }
 
+    public static JTextField CreateTextField(int x, int y, int width, int height, Color colorBack, Color colorText)
+    {
+        JTextField field = new JTextField(SwingConstants.CENTER);
+        field.setBounds(x-(width/2),y-(height/2),width,height);
+        field.setBackground(colorBack);
+        field.setForeground(colorText);
+        field.setFont(new Font(FontMainName, Font.PLAIN, 20));
+
+        if (colorBack.getAlpha() < 255)
+        {
+            field.setOpaque(false);
+        }
+
+        return field;
+    }
+
     public static double GetScaleFactor()
     {
         return WindowHeightPercentage;
