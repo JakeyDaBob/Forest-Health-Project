@@ -70,6 +70,8 @@ public class Table extends JLayeredPane
         add(row, JLayeredPane.PALETTE_LAYER);
         rows.add(row);
 
+        System.out.println("Row add " + rows.size());
+
         updateRows();
     }
 
@@ -80,7 +82,9 @@ public class Table extends JLayeredPane
             Rectangle rect = new Rectangle(rowRect);
             rect.y = (RowGap + RowHeight) * i;
 
-            rows.get(i).setBounds(rect);
+            rows.get(i).setLocation(0, rect.y);
+
+            System.out.println("Set row bounds for " + i + ": " + rect);
         }
     }
 
@@ -107,7 +111,7 @@ public class Table extends JLayeredPane
                 }
 
                 cells[i] = cell;
-                add(cells[i], JLayeredPane.PALETTE_LAYER);
+                this.add(cells[i], JLayeredPane.PALETTE_LAYER);
             }
         }
 

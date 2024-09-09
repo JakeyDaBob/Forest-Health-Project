@@ -22,6 +22,7 @@ public class DataRecordCreate extends JLayeredPane
     DataContext context;
 
     int stepId;
+    static final int StartStepId = 11;
 
     public DataRecordCreate(JFrame window)
     {
@@ -53,7 +54,7 @@ public class DataRecordCreate extends JLayeredPane
 
         holder.add(stepPanel, JLayeredPane.PALETTE_LAYER);
 
-        stepId = 11;
+        stepId = StartStepId;
         SetStepFromId(stepId);
     }
 

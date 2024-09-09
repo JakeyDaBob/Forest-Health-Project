@@ -19,6 +19,7 @@ public class StepFauna extends StepPanel
 
         table.addRow("Add", "Data", "Data Type", "Interaction Type");
         table.addRow("sigma", "sigma", "sigma", "sigma");
+        table.addRow("skeng", "1", "2", "3");
     }
 
     @Override
