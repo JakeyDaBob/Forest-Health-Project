@@ -6,7 +6,8 @@ import window.elements.*;
 import java.awt.*;
 import javax.swing.*;
 
-import datarecord.DataRecord.BurnSeverity;
+import datarecord.DataRecord.*;
+import datarecord.DataRecord;
 
 public class DataRecordCreate extends JLayeredPane
 {
@@ -52,7 +53,7 @@ public class DataRecordCreate extends JLayeredPane
 
         holder.add(stepPanel, JLayeredPane.PALETTE_LAYER);
 
-        stepId = 0;
+        stepId = 11;
         SetStepFromId(stepId);
     }
 
@@ -86,6 +87,11 @@ public class DataRecordCreate extends JLayeredPane
         //Skip recovery information if the Burn Severity is Unburnt
         if (stepCurrent == 4 && context.record.burnSeverity == BurnSeverity.Unburnt)
         {
+            context.record.recoveryGround = DataRecord.RecoveryGroundLayer.Unburnt;
+            context.record.recoveryShrub = DataRecord.RecoveryShrubLayer.Unburnt;
+            context.record.recoveryLowerCanopy = DataRecord.RecoveryLowerCanopyLayer.Unburnt;
+            context.record.recoveryUpperCanopy = DataRecord.RecoveryUpperCanopyLayer.Unburnt;
+            context.record.recoveryEmergantLayer = DataRecord.RecoveryEmergantLayer.Unburnt;
             return 10;
         }
 
@@ -130,6 +136,7 @@ public class DataRecordCreate extends JLayeredPane
             case 8: return new StepRecoveryLayerUpperCanopy(holder, context);
             case 9: return new StepRecoveryLayerEmergantLayer(holder, context);
             case 10: return new StepFloweringState(holder, context);
+            case 11: return new StepFauna(holder, context);
         }
 
         return null;
