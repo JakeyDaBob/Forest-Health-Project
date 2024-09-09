@@ -117,7 +117,7 @@ public class DataRecord extends JObjectableAuto
         Low,
         Moderate,
         High,
-        Exetreme
+        Extreme
     }
 
     public enum RecoveryGroundLayer
@@ -188,6 +188,7 @@ public class DataRecord extends JObjectableAuto
 
     public enum FloweringState
     {
+        None,
         Seed,
         Germination,
         Growth,

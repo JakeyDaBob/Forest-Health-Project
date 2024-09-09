@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Table extends JLayeredPane
 {
-    static final int RowHeight = 70;
+    static final int RowHeight = 50;
     static final int RowGap = 20;
     static final double Dooner = 0.1;
 
@@ -60,7 +60,7 @@ public class Table extends JLayeredPane
             throw new IllegalArgumentException("There are " + columnRects.length + " columns not " + names.length);
         }
 
-        Row row = new Row(rowRect, columnRects);
+        Row row = new Row(rowRect, columnRects, this);
         for (int i = 0; i < columnRects.length; i++)
         {
             Cell cell = row.getCell(i);
@@ -73,12 +73,18 @@ public class Table extends JLayeredPane
         updateRows();
     }
 
+    public Row getRow(int i)
+    {
+        return rows.get(i);
+    }
+
     public void removeRow(int i)
     {
         Row row = rows.get(i);
 
         rows.remove(i);
         remove(row);
+        revalidate();
 
         updateRows();
     }
@@ -92,31 +98,37 @@ public class Table extends JLayeredPane
 
             rows.get(i).setBounds(rect);
         }
+
+        repaint();
     }
 
     Cell getCellAtPosition(Vector2Int position)
     {
         Row row = rows.get(position.y);
-        return row.getCell(position.x);
+        Cell cell = row.getCell(position.x);
+
+        return cell;
     }
 
     Vector2Int getPositionOfCell(Cell cell)
     {
-        int y = 0;
-        for (int x = 0; x < columnRects.length; x++)
+        for (int y = 0; y < rows.size(); y++)
         {
-            Vector2Int position = new Vector2Int(x,y);
-            Cell cellOther = getCellAtPosition(position);
-
-            if (cellOther == cell)
+            for (int x = 0; x < columnRects.length; x++)
             {
-                return position;
+                Vector2Int position = new Vector2Int(x,y);
+                Cell cellOther = getCellAtPosition(position);
+
+                if (cellOther.equals(cell))
+                {
+                    return position;
+                }
             }
         }
 
         System.err.println("Failed to get position of cell");
 
-        return new Vector2Int(0,0);
+        return null;
     }
 
     void onCellClicked(Cell cell)
@@ -124,6 +136,7 @@ public class Table extends JLayeredPane
         Vector2Int position = getPositionOfCell(cell);
 
         onCellClickedPosition = position;
+        System.out.println("Cell clicked: " + (onCellClickedPosition == null ? "Failed Position" : onCellClickedPosition.toString()));
 
         if (onCellClicked != null)
         {
@@ -134,10 +147,13 @@ public class Table extends JLayeredPane
     public class Row extends JLayeredPane
     {
         Cell[] cells;
+        Table tableParent;
 
-        public Row(Rectangle rect, Rectangle[] rects)
+        public Row(Rectangle rect, Rectangle[] rects, Table tableParent)
         {
             setBounds(rect);
+
+            this.tableParent = tableParent;
 
             cells = new Cell[rects.length];
             for (int i = 0; i < rects.length; i++)
@@ -160,7 +176,7 @@ public class Table extends JLayeredPane
                     {
                         if (cell.contains(e.getPoint()))
                         {
-                            onCellClicked(cell);
+                            tableParent.onCellClicked(cell);
                         }
                     }
                 });
@@ -171,6 +187,19 @@ public class Table extends JLayeredPane
         public Cell getCell(int i)
         {
             return cells[i];
+        }
+
+        public void setNames(String... names)
+        {
+            if (names.length != cells.length)
+            {
+                return;
+            }
+
+            for (int i = 0; i < names.length; i++)
+            {
+                cells[i].setText(names[i]);
+            }
         }
     }
 

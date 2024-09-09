@@ -22,7 +22,7 @@ public class DataRecordCreate extends JLayeredPane
     DataContext context;
 
     int stepId;
-    static final int StartStepId = 11;
+    static final int StartStepId = 0;
 
     public DataRecordCreate(JFrame window)
     {
@@ -138,6 +138,7 @@ public class DataRecordCreate extends JLayeredPane
             case 9: return new StepRecoveryLayerEmergantLayer(holder, context);
             case 10: return new StepFloweringState(holder, context);
             case 11: return new StepFauna(holder, context);
+            case 12: return new StepReview(holder, context);
         }
 
         return null;

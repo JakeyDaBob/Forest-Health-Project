@@ -16,6 +16,14 @@ public class StepFaunaCreate extends JLayeredPane
     JTextField dataField;
     OptionSelectButton optionRecordType;
     OptionSelectButton optionInteractionType;
+    boolean edit;
+    JButton deleteButton;
+
+    FaunaRecord faunaRecord;
+    public FaunaRecord getFaunaRecord()
+    {
+        return faunaRecord;
+    }
 
     public Runnable onEnd;
 
@@ -44,7 +52,7 @@ public class StepFaunaCreate extends JLayeredPane
         optionInteractionType = new OptionSelectButton(FaunaRecord.InteractionType.values(), new Rectangle(0,210, getWidth(), 50));
         add(optionInteractionType, JLayeredPane.MODAL_LAYER);
 
-        JButton buttonConfirm = WindowUtil.CreateButton("Confirm Fauna Record", getWidth()/2, getHeight()-80, getWidth()/2, 50, Color.black, Color.white);
+        JButton buttonConfirm = WindowUtil.CreateButton("Confirm Fauna Record", getWidth()/2, getHeight()-120, getWidth()/2, 50, Color.black, Color.white);
         buttonConfirm.addActionListener(new ActionListener()
         {
             @Override
@@ -52,26 +60,54 @@ public class StepFaunaCreate extends JLayeredPane
             {
                 if (onEnd != null)
                 {
+                    faunaRecord = createFaunaRecord();
                     onEnd.run();
                     setVisible(false);
                 }
             }
         });
         add(buttonConfirm, JLayeredPane.MODAL_LAYER);
+
+        deleteButton = WindowUtil.CreateButton("DELETE", getWidth()/2, getHeight()-60, getWidth()/2, 50, Color.black, Color.red);
+        deleteButton.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                if (onEnd != null)
+                {
+                    faunaRecord = null;
+                    onEnd.run();
+                    setVisible(false);
+                }
+            }
+        });
+        deleteButton.setVisible(false);
+
+        add(deleteButton, JLayeredPane.MODAL_LAYER);
     }
 
-    public void begin(String titleText)
+    public void begin(boolean edit, FaunaRecord fr)
     {
-        titleLabel.setText(titleText);
+        String title = (edit ? "EDIT" : "CREATE") + " Fauna Record";
+        titleLabel.setText(title);
 
         dataField.setText("Animal Data Here");
         optionRecordType.setId(0);
         optionInteractionType.setId(0);
 
         setVisible(true);
+        deleteButton.setVisible(edit);
+
+        if (fr != null)
+        {
+            dataField.setText(fr.data);
+            optionRecordType.setId(fr.type.ordinal());
+            optionInteractionType.setId(fr.interactionType.ordinal());
+        }
     }
 
-    public FaunaRecord getFaunaRecord()
+    FaunaRecord createFaunaRecord()
     {
         String data = dataField.getText();
         FaunaRecord.Type type = FaunaRecord.Type.values()[optionRecordType.getId()];
