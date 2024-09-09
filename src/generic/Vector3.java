@@ -79,6 +79,12 @@ public class Vector3 implements Serializable, JObjectable
         }
     }
 
+    @Override
+    public String toString()
+    {
+        return "(" + x + ", " + y + ", " + z + ")";
+    }
+
     public static Vector3 Normalised(Vector3 v)
     {
         Vector3 a = new Vector3(v);

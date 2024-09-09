@@ -64,6 +64,7 @@ public class DataRecord extends JObjectableAuto
         recoveryGround = RecoveryGroundLayer.values()[random.nextInt(RecoveryGroundLayer.values().length)];
         recoveryShrub = RecoveryShrubLayer.values()[random.nextInt(RecoveryShrubLayer.values().length)];
         recoveryLowerCanopy = RecoveryLowerCanopyLayer.values()[random.nextInt(RecoveryLowerCanopyLayer.values().length)];
+        recoveryUpperCanopy = RecoveryUpperCanopyLayer.values()[random.nextInt(RecoveryUpperCanopyLayer.values().length)];
         recoveryEmergantLayer = RecoveryEmergantLayer.values()[random.nextInt(RecoveryEmergantLayer.values().length)];
 
         List<FaunaRecord> faunaRecordsList = new ArrayList<>();
@@ -172,6 +173,20 @@ public class DataRecord extends JObjectableAuto
             case 2: return RecoveryLowerCanopyLayer.class;
             case 3: return RecoveryUpperCanopyLayer.class;
             case 4: return RecoveryEmergantLayer.class;
+        }
+
+        throw new IllegalArgumentException("Invalid layer index " + layerIndex);
+    }
+
+    public String GetLayerRecoveryString(int layerIndex)
+    {
+        switch (layerIndex)
+        {
+            case 0: return recoveryGround.toString();
+            case 1: return recoveryShrub.toString();
+            case 2: return recoveryLowerCanopy.toString();
+            case 3: return recoveryUpperCanopy.toString();
+            case 4: return recoveryEmergantLayer.toString();
         }
 
         throw new IllegalArgumentException("Invalid layer index " + layerIndex);
