@@ -34,6 +34,10 @@ public class StepFauna extends StepPanel
         createFaunaRecordPanel.onEnd = () -> { FaunaThingEnd(); };
         add(createFaunaRecordPanel, JLayeredPane.MODAL_LAYER);
 
+        JLabel labelSubtitle = WindowUtil.CreateLabel("Optional!", 0, 25, getWidth(), 100, Color.white);
+        labelSubtitle.setFont(new Font(WindowUtil.FontMainName, Font.ITALIC, 25));
+        add(labelSubtitle, JLayeredPane.MODAL_LAYER);
+
         table = new Table(getWidth()/8, (getWidth()/8)*3, getWidth()/4, getWidth()/4);
         table.setLocation(0, 100);
         add(table, JLayeredPane.PALETTE_LAYER);

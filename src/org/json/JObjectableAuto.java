@@ -50,7 +50,6 @@ public class JObjectableAuto implements JObjectable
 
     protected JSONObject toJsonAuto()
     {
-        System.out.println("--- TO JSON AUTO ---");
         JSONObject obj = new JSONObject();
     
         Field[] fields = getClass().getDeclaredFields();
@@ -98,10 +97,6 @@ public class JObjectableAuto implements JObjectable
                     if (isJObjectable)
                     {
                         JObjectable[] jobjs = (JObjectable[])value;
-                        
-                        System.out.println("Jobj array for " + field.getName());
-                        System.out.println(jobjs.length + " jobjs in array");
-                        System.out.println("Length check: " + ((Object[])value).length);
 
                         for (JObjectable jobj : jobjs)
                         {
@@ -130,14 +125,11 @@ public class JObjectableAuto implements JObjectable
             }
         }
 
-        System.out.println("--- TO JSON AUTO ENDDDDD ---");
         return obj;
     }
 
     protected void fromJsonAuto(JSONObject obj)
     {
-        System.out.println("--- FROM JSON AUTO ---");
-
         Field[] fields = getClass().getDeclaredFields();
         for (Field field : fields)
         {
@@ -165,13 +157,11 @@ public class JObjectableAuto implements JObjectable
                     if (isJObjectable)
                     {
                         JSONObject jobj = obj.getJSONObject(field.getName());
-                        System.out.println("Trying instancing of " + type + "...");
                         try
                         {
                             type.getConstructor().setAccessible(true);
                             Object instance = type.getConstructor().newInstance();
                             JObjectable jObjectable = (JObjectable)instance;
-                            System.out.println("jobjectable?=" + (jObjectable == null) + ", " + "jobj?=" + (jobj == null));
                             jObjectable.fromJson(jobj);
 
                             field.set(this, jObjectable);
@@ -272,8 +262,6 @@ public class JObjectableAuto implements JObjectable
                 ex.printStackTrace();
             }
         }
-
-        System.out.println("--- FROM JSON AUTO ENDDDDD ---");
     }
 
     @Override

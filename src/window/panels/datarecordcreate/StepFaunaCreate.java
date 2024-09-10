@@ -8,7 +8,6 @@ import window.WindowUtil;
 import window.elements.*;
 
 import datarecord.*;
-import datarecord.DataRecord.*;
 
 public class StepFaunaCreate extends JLayeredPane
 {

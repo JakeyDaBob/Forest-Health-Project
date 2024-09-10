@@ -13,6 +13,9 @@ import java.util.Random;
 
 public class DataRecord extends JObjectableAuto
 {
+    public int id;
+    public int userId;
+    
     public Image image;
     public double geolocationLatitude, geolocationLongitude;
 
@@ -41,7 +44,7 @@ public class DataRecord extends JObjectableAuto
     public DataRecord()
     {
         image = new Image();
-        dateTime = LocalDateTime.now();
+        dateTime = LocalDateTime.now().withNano(0);
         accelerometerData = new Vector3();
     }
 
@@ -52,7 +55,7 @@ public class DataRecord extends JObjectableAuto
         image.data = new byte[100];
         random.nextBytes(image.data);
 
-        dateTime = LocalDateTime.now();
+        dateTime = LocalDateTime.now().withNano(0);
 
         landscapePosition = LandscapePosition.values()[random.nextInt(LandscapePosition.values().length)];
 
@@ -190,6 +193,30 @@ public class DataRecord extends JObjectableAuto
         }
 
         throw new IllegalArgumentException("Invalid layer index " + layerIndex);
+    }
+
+    public void SetLayerRecoveryString(int layerIndex, String str)
+    {
+        switch (layerIndex)
+        {
+            case 0:
+                recoveryGround = RecoveryGroundLayer.valueOf(str);
+                break;
+            case 1:
+                recoveryShrub = RecoveryShrubLayer.valueOf(str);
+                break;
+            case 2:
+                recoveryLowerCanopy = RecoveryLowerCanopyLayer.valueOf(str);
+                break;
+            case 3:
+                recoveryUpperCanopy = RecoveryUpperCanopyLayer.valueOf(str);
+                break;
+            case 4:
+                recoveryEmergantLayer = RecoveryEmergantLayer.valueOf(str);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid layer index " + layerIndex);
+        }
     }
 
     public enum Layers
