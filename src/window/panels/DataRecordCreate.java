@@ -1,10 +1,15 @@
 package window.panels;
 
+import window.MenuManager;
+import window.MenuState;
 import window.WindowUtil;
 import window.panels.datarecordcreate.*;
 import window.elements.*;
 import java.awt.*;
 import javax.swing.*;
+
+import graphics.ColoredPanel;
+import graphics.DrawImage;
 
 import datarecord.DataRecord.*;
 import datarecord.DataRecord;
@@ -21,17 +26,15 @@ public class DataRecordCreate extends JLayeredPane
 
     DataContext context;
 
+    DrawImage bgImage;
+    ColoredPanel bgBox;
+
     int stepId;
-    static final int StartStepId = 13;
+    static final int StartStepId = 0;
 
     public DataRecordCreate(JFrame window)
     {
         setSize(window.getWidth(), window.getHeight());
-
-        JPanel backgroundPanel = new JPanel();
-        backgroundPanel.setBackground(new Color(0, 0, 0));
-        backgroundPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
-        add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
 
         titleLabel = WindowUtil.CreateLabel("Title", 0, 0, getWidth(), 50, Color.white);
         titleLabel.setBackground(new Color(0,0,0,100));
@@ -39,9 +42,19 @@ public class DataRecordCreate extends JLayeredPane
         titleLabel.setFont(new Font(WindowUtil.FontMainName, Font.BOLD, 42));
         add(titleLabel, JLayeredPane.MODAL_LAYER);
 
+        bgImage = new DrawImage(null);
+        bgImage.setBounds(0,0,getWidth(),getHeight());
+        bgImage.setVisible(false);
+        add(bgImage, JLayeredPane.DEFAULT_LAYER);
+
+        bgBox = new ColoredPanel(new Color(0,0,0,200));
+        bgBox.setBounds(0,0,getWidth(),getHeight());
+        bgBox.setVisible(false);
+        add(bgBox, JLayeredPane.PALETTE_LAYER);
+
         holder = new JLayeredPane();
         holder.setBounds(0, 0, window.getWidth(), window.getHeight());
-        add(holder, JLayeredPane.PALETTE_LAYER);
+        add(holder, JLayeredPane.MODAL_LAYER);
 
         popupPanel = new PopupPanel();
         popupPanel.setBounds(0,0,getWidth(), 60);
@@ -56,6 +69,15 @@ public class DataRecordCreate extends JLayeredPane
 
         stepId = StartStepId;
         SetStepFromId(stepId);
+    }
+
+    void bgCheck()
+    {
+        boolean valid = context.image != null;
+        bgBox.setVisible(valid);
+        bgImage.setVisible(valid);
+        bgImage.setImage(context.image);
+        repaint();
     }
 
     void OnStepState(StepState stepState)
@@ -101,11 +123,17 @@ public class DataRecordCreate extends JLayeredPane
 
     void SetStepFromId(int stepId)
     {
+        bgCheck();
         SetStep(CreateStep(stepId));
     }
 
     void SetStep(StepPanel step)
     {
+        if (step == null)
+        {
+            MenuManager.SetState(MenuState.Menu);
+        }
+
         popupPanel.setVisible(false);
 
         holder.remove(stepPanel);
@@ -140,6 +168,7 @@ public class DataRecordCreate extends JLayeredPane
             case 11: return new StepFauna(holder, context);
             case 12: return new StepReview(holder, context);
             case 13: return new StepUpload(holder, context);
+            case 14: return null;
         }
 
         return null;

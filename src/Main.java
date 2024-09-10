@@ -1,6 +1,5 @@
 import application.SqlManager;
 import datarecord.DataRecord;
-import generic.UtilMethods;
 import window.MenuManager;
 import window.MenuState;
 
@@ -12,12 +11,7 @@ public class Main
 {
     public static void main(String[] args)
     {
-        //MenuManager.Innit(MenuState.DataRecordCreate);
-
-        //TestConnect();
-        //TestUpload();
-        //TestDownload();
-        TestDataCheck();
+        MenuManager.Innit(MenuState.Splash);
     }
 
     static void TestDataCheck()

@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.format.DateTimeFormatter;
 
-import graphics.ColoredPanel;
-import graphics.DrawImage;
 import window.WindowUtil;
 
 public class StepPreviewPhoto extends StepPanel
@@ -14,15 +12,6 @@ public class StepPreviewPhoto extends StepPanel
     public StepPreviewPhoto(JLayeredPane parentPanel, DataContext context)
     {
         super(parentPanel, context);
-
-        DrawImage image = new DrawImage(context.image);
-        image.setBounds(0,0,getWidth(),getHeight());
-        add(image, JLayeredPane.DEFAULT_LAYER);
-
-        ColoredPanel box = new ColoredPanel(new Color(0,0,0,200));
-        box.setBounds(0,0,getWidth(),getHeight());
-        box.setVisible(true);
-        add(box, JLayeredPane.PALETTE_LAYER);
 
         JPanel textPanel = new JPanel(null);
         textPanel.setBounds(0,150,getWidth(),getHeight());

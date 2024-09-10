@@ -18,8 +18,6 @@ public class StepUpload extends StepPanel
     JButton buttonFinish;
     JLabel statusLabel;
 
-    boolean uploading;
-
     public StepUpload(JLayeredPane parentPanel, DataContext context)
     {
         super(parentPanel, context);
@@ -53,8 +51,6 @@ public class StepUpload extends StepPanel
         statusLabel.setFont(new Font(WindowUtil.FontMainName, Font.PLAIN, 20));
         add(statusLabel, JLayeredPane.MODAL_LAYER);
 
-        subCalls();
-
         setButton(buttonFinish, false);
     }
 
@@ -67,30 +63,21 @@ public class StepUpload extends StepPanel
 
     void tryUpload()
     {
-        if (uploading)
-        {
-            return;
-        }
-
-        uploading = true;
         setButton(buttonUpload, false);
 
         setStatus("Uploading", new Color(20,255,40));
 
-        SqlManager.UploadDataRecord(context.record);
+        boolean state = SqlManager.AddDataRecord(context.record);
+        setUploadState(state);
     }
 
     void tryFinish()
     {
-        System.out.println("Finish");
+        SetState(new StepState(StepState.Result.Done));
     }
 
-    Runnable taskUploadFinish = () ->
+    void setUploadState(boolean uploadState)
     {
-        uploading = false;
-
-        boolean uploadState = SqlManager.OnUploadState;
-
         Color color = uploadState ? Color.green : Color.red;
         String text = uploadState ? "Success" : "Failure";
 
@@ -106,22 +93,12 @@ public class StepUpload extends StepPanel
         }
 
         repaint();
-    };
+    }
 
     void setStatus(String str, Color color)
     {
         statusLabel.setText(str);
         statusLabel.setForeground(color);
-    }
-
-    void subCalls()
-    {
-        SqlManager.OnUpload.Add(taskUploadFinish);
-    }
-
-    void unCalls()
-    {
-        SqlManager.OnUpload.Remove(taskUploadFinish);
     }
 
     @Override

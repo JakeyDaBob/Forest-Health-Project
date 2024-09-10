@@ -12,6 +12,7 @@ import java.util.Random;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class StepTakePhoto extends StepPanel
@@ -19,6 +20,7 @@ public class StepTakePhoto extends StepPanel
     DrawImage image;
     BufferedImage imageData;
     String imageName;
+    String imagePath;
 
     public StepTakePhoto(JLayeredPane parentPanel, DataContext context)
     {
@@ -27,7 +29,7 @@ public class StepTakePhoto extends StepPanel
         Random random = new Random();
         String[] imagePaths = FileSystem.Resources.GetAllFilesInDirectory("photos");
         String imageFileName = imagePaths[random.nextInt(imagePaths.length)];
-        String imagePath = "photos/"+imageFileName;
+        imagePath = "photos/"+imageFileName;
 
         imageData = FileSystem.Resources.GetImage(imagePath);
         image = new DrawImage(imageData);
@@ -46,6 +48,16 @@ public class StepTakePhoto extends StepPanel
 
                 record.image = new Image();
                 record.image.name = imageFileName;
+
+                try
+                {
+                    record.image.data = FileSystem.Resources.GetInputStream(imagePath).readAllBytes();
+                }
+                catch (IOException ex)
+                {
+                    System.err.println("Failed to read image bytes");
+                    ex.printStackTrace();
+                }
 
                 Random random = new Random();
                 record.geolocationLatitude = -28.2383 + random.nextDouble(-0.2,0.2);

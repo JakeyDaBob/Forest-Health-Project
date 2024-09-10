@@ -13,6 +13,11 @@ public class DrawImage extends JPanel
         this.image = image;
     }
 
+    public void setImage(BufferedImage bufferedImage)
+    {
+        this.image = bufferedImage;
+    }
+
     @Override
     protected void paintComponent(Graphics g)
     {

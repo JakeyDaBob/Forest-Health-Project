@@ -38,6 +38,8 @@ public class SqlManager
     static final String TableUsers = "public.\"Users\"";
 
     public static int LastDataRecordAddId = -1;
+    public static Callback OnDataRecordAdd = new Callback();
+    public static boolean OnDataRecordAddState = false;
 
     public static void Connect()
     {
@@ -151,7 +153,7 @@ public class SqlManager
         }
     }
 
-    public static void AddDataRecord(DataRecord dr)
+    public static boolean AddDataRecord(DataRecord dr)
     {
         try (Connection connection = DriverManager.getConnection(Url, Username, Password))
         {
@@ -223,7 +225,7 @@ public class SqlManager
                 if (generatedId == -1)
                 {
                     System.err.println("Failed to add data record");
-                    return;
+                    return false;
                 }
 
                 //Fauna records:
@@ -238,7 +240,10 @@ public class SqlManager
         {
             System.out.println("Issue:");
             ex.printStackTrace();
+            return false;
         }
+
+        return true;
     }
 
     public static FaunaRecord CreateFaunaRecordFromResultSet(ResultSet set)
@@ -342,31 +347,4 @@ public class SqlManager
         }
     }
 
-    public static void UploadDataRecord(DataRecord dr)
-    {
-        CompletableFuture<Boolean> future = CompletableFuture.supplyAsync(
-        () ->
-        {
-            try
-            {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException ex)
-            {
-                System.err.println("Thread ex");
-                ex.printStackTrace();
-            }
-
-            Random random = new Random();
-            return random.nextInt(0,2) == 0;
-        });
-
-        future.thenAccept(state -> { UploadDataRecordFinish(state); });
-    }
-
-    static void UploadDataRecordFinish(boolean state)
-    {
-        OnUploadState = state;
-        OnUpload.Invoke();
-    }
 }
