@@ -24,7 +24,6 @@ import java.sql.Array;
 public class SqlManager
 {
     public static Callback OnUpload = new Callback();
-    public static boolean OnUploadState = false;
 
     static final String Hostname = "58.161.74.181";
     static final String Port = "5432";
@@ -151,6 +150,23 @@ public class SqlManager
             System.out.println("Issue:");
             ex.printStackTrace();
         }
+    }
+
+    public static void AddDataRecordAsync(DataRecord dr)
+    {
+        CompletableFuture<Boolean> future = CompletableFuture.supplyAsync(
+        () ->
+        {
+            return AddDataRecord(dr);
+        });
+
+        future.thenAccept(state -> { AddDataRecordEnd(state); });
+    }
+
+    static void AddDataRecordEnd(boolean state)
+    {
+        OnDataRecordAddState = state;
+        OnDataRecordAdd.Invoke();
     }
 
     public static boolean AddDataRecord(DataRecord dr)

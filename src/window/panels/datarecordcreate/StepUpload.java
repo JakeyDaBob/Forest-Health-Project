@@ -2,21 +2,25 @@ package window.panels.datarecordcreate;
 
 import javax.swing.*;
 
+import org.json.JSONObject;
+
+import application.FileSystem;
 import application.SqlManager;
-import datarecord.DataRecord;
-import generic.Vector3;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import window.WindowUtil;
-import window.elements.JButtonRounded;
 
 public class StepUpload extends StepPanel
 {
     JButton buttonUpload;
     JButton buttonFinish;
     JLabel statusLabel;
+
+    boolean uploading = false;
 
     public StepUpload(JLayeredPane parentPanel, DataContext context)
     {
@@ -52,6 +56,24 @@ public class StepUpload extends StepPanel
         add(statusLabel, JLayeredPane.MODAL_LAYER);
 
         setButton(buttonFinish, false);
+
+        subCalls();
+    }
+
+    @Override
+    public void CleanUp()
+    {
+        unCalls();
+    }
+
+    void subCalls()
+    {
+        SqlManager.OnDataRecordAdd.Add(taskUploadEnd);
+    }
+
+    void unCalls()
+    {
+        SqlManager.OnDataRecordAdd.Remove(taskUploadEnd);
     }
 
     void setButton(JButton button, boolean c)
@@ -63,11 +85,29 @@ public class StepUpload extends StepPanel
 
     void tryUpload()
     {
+        if (uploading)
+        {
+            return;
+        }
+        uploading = true;
+
         setButton(buttonUpload, false);
 
         setStatus("Uploading", new Color(20,255,40));
 
-        boolean state = SqlManager.AddDataRecord(context.record);
+        SqlManager.AddDataRecordAsync(context.record);
+    }
+
+    Runnable taskUploadEnd = () ->
+    {
+        uploadEnd();
+    };
+
+    void uploadEnd()
+    {
+        uploading = false;
+
+        boolean state = SqlManager.OnDataRecordAddState;
         setUploadState(state);
     }
 
@@ -79,18 +119,27 @@ public class StepUpload extends StepPanel
     void setUploadState(boolean uploadState)
     {
         Color color = uploadState ? Color.green : Color.red;
-        String text = uploadState ? "Success" : "Failure";
+        String text = uploadState ? "Success" : "Failed, saving record locally";
 
         setStatus(text, color);
 
         if (!uploadState)
         {
             setButton(buttonUpload, true);
+
+            FileSystem.Base.DirectoryCheck("outdata");
+            FileSystem.Base.DirectoryCheck("outdata/datarecords");
+
+            JSONObject jobj = context.record.toJson();
+            LocalDateTime dateTime = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
+            String fileName = dateTime.format(formatter) + ".json";
+            String filePath = "outdata/datarecords/" + fileName;
+            
+            FileSystem.Base.WriteAllLines(filePath, jobj.toString());
         }
-        else
-        {
-            setButton(buttonFinish, true);
-        }
+        
+        setButton(buttonFinish, true);
 
         repaint();
     }

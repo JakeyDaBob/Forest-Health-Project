@@ -49,17 +49,11 @@ public class StepTakePhoto extends StepPanel
                 record.image = new Image();
                 record.image.name = imageFileName;
 
-                try
-                {
-                    record.image.data = FileSystem.Resources.GetInputStream(imagePath).readAllBytes();
-                }
-                catch (IOException ex)
-                {
-                    System.err.println("Failed to read image bytes");
-                    ex.printStackTrace();
-                }
-
                 Random random = new Random();
+
+                record.image.data = new byte[64];
+                random.nextBytes(record.image.data);
+
                 record.geolocationLatitude = -28.2383 + random.nextDouble(-0.2,0.2);
                 record.geolocationLongitude = 153.1972 + random.nextDouble(-0.2,0.2);
 

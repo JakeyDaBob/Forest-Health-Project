@@ -7,8 +7,13 @@ import javax.swing.*;
 import application.AppInfo;
 import generic.Vector2Int;
 import window.panels.DataRecordCreate;
+import window.panels.InfoPanel;
 import window.panels.MenuPanel;
 import window.panels.SplashPanel;
+import window.panels.SupportPanel;
+import window.panels.ViewRecordsExternalPanel;
+import window.panels.ViewRecordsLocalPanel;
+import window.panels.ViewRecordsPanel;
 
 public class MenuManager
 {
@@ -52,6 +57,11 @@ public class MenuManager
             case Splash: return new SplashPanel(window);
             case Menu: return new MenuPanel(window);
             case DataRecordCreate: return new DataRecordCreate(window);
+            case Information: return new InfoPanel(window);
+            case Support: return new SupportPanel(window);
+            case ViewDataRecords: return new ViewRecordsPanel(window);
+            case ViewDataRecordsLocal: return new ViewRecordsLocalPanel(window);
+            case ViewDataRecordsExternal: return new ViewRecordsExternalPanel(window);
             default: return null;
         }
     }

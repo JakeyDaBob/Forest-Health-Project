@@ -11,6 +11,8 @@ public class DrawImage extends JPanel
     public DrawImage(BufferedImage image)
     {
         this.image = image;
+
+        setOpaque(false);
     }
 
     public void setImage(BufferedImage bufferedImage)

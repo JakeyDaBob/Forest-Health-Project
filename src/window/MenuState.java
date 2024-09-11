@@ -5,5 +5,9 @@ public enum MenuState
     Splash,
     Menu,
     DataRecordCreate,
-    Infomation,
+    Information,
+    Support,
+    ViewDataRecords,
+    ViewDataRecordsLocal,
+    ViewDataRecordsExternal,
 }

@@ -32,5 +32,10 @@ public abstract class StepPanel extends JLayeredPane
         setBounds(0, 0, parentPanel.getWidth(), parentPanel.getHeight());
     }
 
+    public void CleanUp()
+    {
+        
+    }
+
     public abstract String GetStepName();
 }

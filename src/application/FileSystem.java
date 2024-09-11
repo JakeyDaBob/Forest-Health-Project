@@ -51,6 +51,37 @@ public class FileSystem
         return pathBase + pathRelative;
     }
 
+    public boolean DirectoryCheck(String pathRelative)
+    {
+        if (!CanDoWrite(type))
+        {
+            return false;
+        }
+
+        String path = GetPath(pathRelative);
+        System.out.println("Directory: " + path);
+
+        Path directory = Paths.get(path);
+
+        if (Files.exists(directory) && Files.isDirectory(directory))
+        {
+            System.out.println("directory already exists");
+            return true;
+        }
+
+        try
+        {
+            Files.createDirectory(directory);
+        }
+        catch (IOException ex)
+        {
+            System.out.println("error creating dir");
+            return false;
+        }
+
+        return true;
+    }
+
     public BufferedImage GetImage(String pathRelative)
     {
         InputStream inputStream = GetInputStream(pathRelative);

@@ -4,7 +4,6 @@ import window.MenuManager;
 import window.MenuState;
 
 import java.util.Random;
-
 import org.json.JSONObject;
 
 public class Main

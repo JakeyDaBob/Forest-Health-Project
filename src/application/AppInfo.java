@@ -8,6 +8,8 @@ public class AppInfo
 
     public static final String CourseCode = "2813ICT";
     public static final String CourseName = "Software Engineering Fundamentals";
+
+    public static final String ContactMobileSupport = "07 5555 1234";
     
     public static final int GroupNumber = 1;
     public static final GroupMember[] GroupMembers = new GroupMember[]

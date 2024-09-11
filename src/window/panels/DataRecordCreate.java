@@ -21,7 +21,7 @@ public class DataRecordCreate extends JLayeredPane
     JLabel titleLabel;
 
     JLayeredPane holder;
-    JLayeredPane stepPanel;
+    StepPanel stepPanel;
     PopupPanel popupPanel;
 
     DataContext context;
@@ -62,10 +62,10 @@ public class DataRecordCreate extends JLayeredPane
         
         context = new DataContext();
         
-        stepPanel = new JLayeredPane();
-        stepPanel.setBounds(0,0,getWidth(),getHeight());
+        //stepPanel = new JLayeredPane();
+        //stepPanel.setBounds(0,0,getWidth(),getHeight());
 
-        holder.add(stepPanel, JLayeredPane.PALETTE_LAYER);
+        //holder.add(stepPanel, JLayeredPane.PALETTE_LAYER);
 
         stepId = StartStepId;
         SetStepFromId(stepId);
@@ -129,15 +129,24 @@ public class DataRecordCreate extends JLayeredPane
 
     void SetStep(StepPanel step)
     {
+        if (stepPanel != null)
+        {
+            stepPanel.CleanUp();
+        }
+
         if (step == null)
         {
             MenuManager.SetState(MenuState.Menu);
+            return;
         }
 
         popupPanel.setVisible(false);
 
-        holder.remove(stepPanel);
-        stepPanel = null;
+        if (stepPanel != null)
+        {
+            holder.remove(stepPanel);
+            stepPanel = null;
+        }
         stepPanel = step;
 
         holder.add(stepPanel, JLayeredPane.PALETTE_LAYER);
