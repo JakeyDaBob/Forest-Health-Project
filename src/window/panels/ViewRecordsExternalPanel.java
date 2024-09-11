@@ -3,15 +3,9 @@ package window.panels;
 import java.awt.*;
 import javax.swing.*;
 
-import org.json.JSONObject;
-
 import java.awt.event.*;
 import java.util.Random;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import application.FileSystem;

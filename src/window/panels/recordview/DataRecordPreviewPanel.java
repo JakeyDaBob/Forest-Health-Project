@@ -3,9 +3,6 @@ package window.panels.recordview;
 import java.awt.*;
 import javax.swing.*;
 
-import graphics.ColoredPanel;
-import window.MenuManager;
-import window.MenuState;
 import window.WindowUtil;
 
 import java.awt.event.*;

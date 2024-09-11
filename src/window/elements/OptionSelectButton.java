@@ -1,9 +1,6 @@
 package window.elements;
 
 import javax.swing.*;
-import javax.swing.event.EventListenerList;
-
-import generic.UtilMethods;
 
 import java.awt.*;
 import java.awt.event.*;

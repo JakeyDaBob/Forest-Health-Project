@@ -9,12 +9,9 @@ import java.awt.event.*;
 
 import graphics.ColoredPanel;
 import graphics.DrawImage;
-import window.MenuManager;
-import window.MenuState;
 import window.WindowUtil;
 
 import datarecord.*;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class DataRecordPreviewInformationPanel extends JLayeredPane

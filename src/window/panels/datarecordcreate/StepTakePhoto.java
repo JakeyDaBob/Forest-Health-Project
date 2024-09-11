@@ -12,7 +12,6 @@ import java.util.Random;
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class StepTakePhoto extends StepPanel

@@ -5,7 +5,6 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.util.Random;
 
-import application.AppInfo;
 import application.FileSystem;
 import graphics.ColoredPanel;
 import graphics.DrawImage;

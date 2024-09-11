@@ -6,8 +6,6 @@ import javax.swing.*;
 import graphics.ColoredPanel;
 import window.WindowUtil;
 
-import java.awt.event.*;
-
 public class DataRecordPreviewRow extends JLayeredPane
 {
     JLabel title, desc;

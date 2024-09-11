@@ -139,11 +139,13 @@ public class ViewRecordsLocalPanel extends JLayeredPane
 
         syncTitleLabel = WindowUtil.CreateLabel("Sync Data Records", 0, 50, getWidth(), 50, Color.white);
         syncTitleLabel.setFont(new Font(WindowUtil.FontMainName, Font.BOLD, 36));
+        syncTitleLabel.setOpaque(true);
         syncTitleLabel.setBackground(Color.black);
         syncPanel.add(syncTitleLabel, JLayeredPane.MODAL_LAYER);
 
         syncStatusLabel = WindowUtil.CreateLabel("Status", 0, 150, getWidth(), 100, Color.white);
         syncStatusLabel.setFont(new Font(WindowUtil.FontMainName, Font.BOLD, 30));
+        syncStatusLabel.setOpaque(true);
         syncStatusLabel.setBackground(Color.black);
         syncPanel.add(syncStatusLabel, JLayeredPane.MODAL_LAYER);
 

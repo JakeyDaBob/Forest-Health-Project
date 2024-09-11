@@ -1,14 +1,11 @@
 package application;
 
 import generic.Callback;
-import window.panels.datarecordcreate.StepState.Result;
 import datarecord.DataRecord;
 import datarecord.DataRecordPreview;
 import datarecord.FaunaRecord;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.Random;
-import java.util.Base64;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
@@ -48,6 +45,29 @@ public class SqlManager
     public static Callback OnDataRecordGet = new Callback();
     public static boolean OnDataRecordGetState = false;
     public static DataRecord OnDataRecordGetResult;
+
+    public static void DeleteAllDataRecords()
+    {
+        System.out.println("URL: " + Url);
+        System.out.println("Username: " + Username + ", Password: " + Password);
+
+        try (Connection connection = DriverManager.getConnection(Url, Username, Password))
+        {
+            System.out.println("Connected to postgreserver !!!");
+
+            Statement statement = connection.createStatement();
+
+            String query = "DELETE FROM " + TableDataRecords;
+            ResultSet resultSet = statement.executeQuery(query);
+
+            PrintResultSet(resultSet);
+        }
+        catch (Exception ex)
+        {
+            System.out.println("Connection issue:");
+            ex.printStackTrace();
+        }
+    }
 
     public static void Connect()
     {
