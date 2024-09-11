@@ -82,6 +82,44 @@ public class FileSystem
         return true;
     }
 
+    public void Delete(String pathRelative)
+    {
+        if (!CanDoWrite(type))
+        {
+            return;
+        }
+
+        String path = GetPath(pathRelative);
+        try
+        {
+            Files.delete(Paths.get(path));
+        }
+        catch (IOException ex)
+        {
+            LogError(ex, path);
+            ex.printStackTrace();
+        }
+    }
+
+    public boolean Exists(String pathRelative)
+    {
+        String path = GetPath(pathRelative);
+
+        if (type == Type.Normal)
+        {
+            Path pathReal = Paths.get(path);
+
+            return Files.exists(pathReal);
+        }
+
+        if (type == Type.Resource)
+        {
+            return getClass().getResource(path) != null;
+        }
+
+        return false;
+    }
+
     public BufferedImage GetImage(String pathRelative)
     {
         InputStream inputStream = GetInputStream(pathRelative);
@@ -104,13 +142,14 @@ public class FileSystem
         String path = GetPath(pathRelative);
         if (type == Type.Normal)
         {
-            try (InputStream inputStream = new FileInputStream(GetPath(path)))
+            try (InputStream inputStream = new FileInputStream(path))
             {
                 return inputStream;
             }
             catch (IOException ex)
             {
                 LogError(ex, path);
+                return null;
             }
         }
 
@@ -130,6 +169,7 @@ public class FileSystem
             catch (IOException ex)
             {
                 LogError(ex, path);
+                return null;
             }
         }
 
@@ -194,15 +234,7 @@ public class FileSystem
 
         String strOut = "";
 
-        InputStream inputStream = GetInputStream(path);
-        if (inputStream == null)
-        {
-            return "";
-        }
-
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-        try (BufferedReader reader = new BufferedReader(inputStreamReader))
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(path))))
         {
             String line;
             while ((line = reader.readLine()) != null)
@@ -210,9 +242,9 @@ public class FileSystem
                 strOut += line + "\n";
             }
         }
-        catch (IOException e)
+        catch (IOException ex)
         {
-            e.printStackTrace();
+            ex.printStackTrace();
             return "";
         }
 

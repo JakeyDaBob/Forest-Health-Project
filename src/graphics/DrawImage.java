@@ -18,6 +18,7 @@ public class DrawImage extends JPanel
     public void setImage(BufferedImage bufferedImage)
     {
         this.image = bufferedImage;
+        repaint();
     }
 
     @Override

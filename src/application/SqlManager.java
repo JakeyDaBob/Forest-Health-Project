@@ -3,6 +3,7 @@ package application;
 import generic.Callback;
 import window.panels.datarecordcreate.StepState.Result;
 import datarecord.DataRecord;
+import datarecord.DataRecordPreview;
 import datarecord.FaunaRecord;
 
 import java.util.concurrent.CompletableFuture;
@@ -40,6 +41,14 @@ public class SqlManager
     public static Callback OnDataRecordAdd = new Callback();
     public static boolean OnDataRecordAddState = false;
 
+    public static Callback OnDataRecordPreviewsGet = new Callback();
+    public static boolean OnDataRecordPreviewsGetState = false;
+    public static DataRecordPreview[] OnDataRecordPreviewsGetResult;
+
+    public static Callback OnDataRecordGet = new Callback();
+    public static boolean OnDataRecordGetState = false;
+    public static DataRecord OnDataRecordGetResult;
+
     public static void Connect()
     {
         System.out.println("URL: " + Url);
@@ -63,6 +72,99 @@ public class SqlManager
             System.out.println("Connection issue:");
             ex.printStackTrace();
         }
+    }
+
+    public static void GetDataRecordPreviewsAsync()
+    {
+        CompletableFuture<DataRecordPreview[]> future = CompletableFuture.supplyAsync(
+        () ->
+        {
+            return GetDataRecordPreviews();
+        });
+
+        future.thenAccept(previews -> { GetDataRecordPreviewsEnd(previews); });
+    }
+
+    static void GetDataRecordPreviewsEnd(DataRecordPreview[] previews)
+    {
+        OnDataRecordPreviewsGetState = previews != null;
+        OnDataRecordPreviewsGetResult = previews;
+        OnDataRecordPreviewsGet.Invoke();
+    }
+
+    public static DataRecordPreview[] GetDataRecordPreviews()
+    {
+        List<DataRecordPreview> previewList = new ArrayList<>();
+
+        try (Connection connection = DriverManager.getConnection(Url, Username, Password))
+        {
+            Statement statement = connection.createStatement();
+
+            String queryDataRecord = "SELECT \"id\", \"dateTime\" FROM " + TableDataRecords;
+
+            ResultSet resultSet = statement.executeQuery(queryDataRecord);
+
+            while (resultSet.next())
+            {
+                DataRecordPreview preview = GetDataRecordPreviewFromResultSet(resultSet);
+
+                if (preview != null)
+                {
+                    previewList.add(preview);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            System.out.println("Connection issue:");
+            ex.printStackTrace();
+            return null;
+        }
+
+        DataRecordPreview[] previewArray = new DataRecordPreview[previewList.size()];
+        previewList.toArray(previewArray);
+
+        return previewArray;
+    }
+
+    static DataRecordPreview GetDataRecordPreviewFromResultSet(ResultSet set)
+    {
+        DataRecordPreview dr = new DataRecordPreview();
+
+        try
+        {
+            dr.id = set.getInt("id");
+
+            Timestamp timestamp = set.getTimestamp("dateTime");
+            dr.dateTime = timestamp.toLocalDateTime();
+        }
+        catch (Exception ex)
+        {
+            System.err.println("Error reading DataRecordPreview");
+            ex.printStackTrace();
+
+            dr = null;
+        }
+
+        return dr;
+    }
+
+    public static void GetDataRecordAsync(int id)
+    {
+        CompletableFuture<DataRecord> future = CompletableFuture.supplyAsync(
+        () ->
+        {
+            return GetDataRecord(id);
+        });
+
+        future.thenAccept(dataRecord -> { GetDataRecordEnd(dataRecord); });
+    }
+
+    public static void GetDataRecordEnd(DataRecord dataRecord)
+    {
+        OnDataRecordGetState = dataRecord != null;
+        OnDataRecordGetResult = dataRecord;
+        OnDataRecordGet.Invoke();
     }
 
     public static DataRecord GetDataRecord(int id)

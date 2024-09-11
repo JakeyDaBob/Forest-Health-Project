@@ -10,7 +10,7 @@ public class Main
 {
     public static void main(String[] args)
     {
-        MenuManager.Innit(MenuState.Splash);
+        MenuManager.Innit(MenuState.ViewDataRecordsLocal);
     }
 
     static void TestDataCheck()
