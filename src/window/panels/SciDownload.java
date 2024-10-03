@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import application.*;
 import datarecord.*;
+import graphics.DrawImage;
 
 import java.awt.event.*;
 
@@ -24,6 +25,10 @@ public class SciDownload extends JLayeredPane
     public SciDownload(JFrame window)
     {
         setSize(window.getWidth(), window.getHeight());
+
+        DrawImage image = new DrawImage(AppInfo.GetBackgroundImage());
+        image.setBounds(0,0,getWidth(),getHeight());
+        add(image, JLayeredPane.DEFAULT_LAYER);
 
         JPanel backgroundPanel = new JPanel(null);
         backgroundPanel.setBackground(Color.black);
@@ -61,6 +66,18 @@ public class SciDownload extends JLayeredPane
             }
         });
         add(buttonBack, JLayeredPane.MODAL_LAYER);
+
+        JButton buttonPostgre = WindowUtil.CreateButton("PostgreSQL Interface", getWidth()/2, (int)(getHeight()/4+((buttonHeight*2.0*1.5))), (int)(getWidth()*0.3f), buttonHeight, new Color(0,0,0,128), Color.white);
+        buttonPostgre.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                unCalls();
+                MenuManager.SetState(MenuState.SciPostgreInterface);
+            }
+        });
+        add(buttonPostgre, JLayeredPane.MODAL_LAYER);
 
         subCalls();
     }

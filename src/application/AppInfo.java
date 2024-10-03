@@ -57,7 +57,7 @@ public class AppInfo
 
     public static BufferedImage GetSplashImage()
     {
-        String imageName = Mode == AppMode.Citizen ? "forest0.png" : "shroomious.png";
+        String imageName = Mode == AppMode.Citizen ? "splash1.png" : "splash2.png";
         return FileSystem.Resources.GetImage("splash/" + imageName);
     }
 }

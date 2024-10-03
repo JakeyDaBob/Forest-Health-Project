@@ -11,6 +11,7 @@ import window.panels.InfoPanel;
 import window.panels.MenuPanel;
 import window.panels.SciAnalysis;
 import window.panels.SciDownload;
+import window.panels.SciPostgre;
 import window.panels.SplashPanel;
 import window.panels.SupportPanel;
 import window.panels.ViewRecordsExternalPanel;
@@ -66,6 +67,7 @@ public class MenuManager
             case ViewDataRecordsExternal: return new ViewRecordsExternalPanel(window);
             case SciDownload: return new SciDownload(window);
             case SciAnalysis: return new SciAnalysis(window);
+            case SciPostgreInterface: return new SciPostgre(window);
             default: return null;
         }
     }

@@ -25,6 +25,6 @@ public class Main
             }
         }
 
-        MenuManager.Innit(MenuState.Menu);
+        MenuManager.Innit(MenuState.Splash);
     }
 }

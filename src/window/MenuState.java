@@ -12,4 +12,5 @@ public enum MenuState
     ViewDataRecordsExternal,
     SciAnalysis,
     SciDownload,
+    SciPostgreInterface,
 }
