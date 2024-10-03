@@ -3,6 +3,8 @@ package window;
 import java.awt.*;
 import javax.swing.*;
 
+import application.AppInfo;
+import application.AppMode;
 import generic.Vector2Int;
 
 import window.elements.*;
@@ -19,6 +21,12 @@ public class WindowUtil
         Vector2Int screenDimensions = WindowUtil.GetScreenDimensions();
         int windowHeight = (int)(screenDimensions.y*WindowHeightPercentage);
         int windowWidth = (int)(windowHeight*((double)AspectRatio.x/AspectRatio.y));
+
+        if (AppInfo.Mode == AppMode.Scientist)
+        {
+            windowWidth = screenDimensions.x-100;
+            windowHeight = screenDimensions.y-100;
+        }
 
         return new Vector2Int(windowWidth, windowHeight);
     }
@@ -60,6 +68,20 @@ public class WindowUtil
         int y = (screenSize.height - windowSize.height) / 2;
 
         window.setLocation(x, y);
+    }
+
+    public static void Resize(Window window, int widthNew, int heightNew)
+    {
+        int widthCurrent = window.getWidth();
+        int heightCurrent = window.getHeight();
+
+        int widthDiff = widthNew-widthCurrent;
+        int heightDiff = heightNew-heightCurrent;
+
+        int x = window.getX() - (widthDiff/2);
+        int y = window.getY() - (heightDiff/2);
+
+        window.setBounds(x, y, widthNew, heightNew);
     }
 
     public static final String FontMainName = "SansSerif";

@@ -19,12 +19,7 @@ public class SupportPanel extends JLayeredPane
     {
         setSize(window.getWidth(), window.getHeight());
 
-        Random random = new Random();
-        String[] imagePaths = FileSystem.Resources.GetAllFilesInDirectory("photos");
-        String imageFileName = imagePaths[random.nextInt(imagePaths.length)];
-        String imagePath = "photos/"+imageFileName;
-
-        DrawImage image = new DrawImage(FileSystem.Resources.GetImage(imagePath));
+        DrawImage image = new DrawImage(AppInfo.GetBackgroundImage());
         image.setBounds(0,0,getWidth(),getHeight());
         add(image, JLayeredPane.DEFAULT_LAYER);
 

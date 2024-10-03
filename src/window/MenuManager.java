@@ -9,6 +9,8 @@ import generic.Vector2Int;
 import window.panels.DataRecordCreate;
 import window.panels.InfoPanel;
 import window.panels.MenuPanel;
+import window.panels.SciAnalysis;
+import window.panels.SciDownload;
 import window.panels.SplashPanel;
 import window.panels.SupportPanel;
 import window.panels.ViewRecordsExternalPanel;
@@ -62,6 +64,8 @@ public class MenuManager
             case ViewDataRecords: return new ViewRecordsPanel(window);
             case ViewDataRecordsLocal: return new ViewRecordsLocalPanel(window);
             case ViewDataRecordsExternal: return new ViewRecordsExternalPanel(window);
+            case SciDownload: return new SciDownload(window);
+            case SciAnalysis: return new SciAnalysis(window);
             default: return null;
         }
     }

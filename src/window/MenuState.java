@@ -10,4 +10,6 @@ public enum MenuState
     ViewDataRecords,
     ViewDataRecordsLocal,
     ViewDataRecordsExternal,
+    SciAnalysis,
+    SciDownload,
 }

@@ -4,8 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-import application.AppInfo;
-import application.FileSystem;
+import application.*;
 import graphics.DrawImage;
 import window.MenuManager;
 import window.MenuState;
@@ -25,7 +24,7 @@ public class SplashPanel extends JLayeredPane
         backgroundPanel.setBounds(0, 0, window.getWidth(), window.getHeight());
         add(backgroundPanel, JLayeredPane.DEFAULT_LAYER);
 
-        DrawImage image = new DrawImage(FileSystem.Resources.GetImage("forest0.png"));
+        DrawImage image = new DrawImage(AppInfo.GetSplashImage());
         image.setBounds(0,0,getWidth(),getHeight());
         add(image, JLayeredPane.PALETTE_LAYER);
 

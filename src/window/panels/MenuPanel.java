@@ -3,10 +3,9 @@ package window.panels;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.util.Random;
 
 import application.AppInfo;
-import application.FileSystem;
+import application.AppMode;
 import graphics.ColoredPanel;
 import graphics.DrawImage;
 import window.MenuManager;
@@ -22,12 +21,7 @@ public class MenuPanel extends JLayeredPane
     {
         setSize(window.getWidth(), window.getHeight());
 
-        Random random = new Random();
-        String[] imagePaths = FileSystem.Resources.GetAllFilesInDirectory("photos");
-        String imageFileName = imagePaths[random.nextInt(imagePaths.length)];
-        String imagePath = "photos/"+imageFileName;
-
-        DrawImage image = new DrawImage(FileSystem.Resources.GetImage(imagePath));
+        DrawImage image = new DrawImage(AppInfo.GetBackgroundImage());
         image.setBounds(0,0,getWidth(),getHeight());
         add(image, JLayeredPane.DEFAULT_LAYER);
 
@@ -42,25 +36,31 @@ public class MenuPanel extends JLayeredPane
         labelTitle.setFont(new Font(WindowUtil.FontMainName, Font.BOLD, (int)(42*WindowUtil.GetScaleFactor())));
         add(labelTitle, JLayeredPane.MODAL_LAYER);
 
+        JLabel labelMode = WindowUtil.CreateLabel(AppInfo.Mode + " Mode", 0, getHeight()/16+40, getWidth(), 50, Color.white);
+        labelMode.setFont(new Font(WindowUtil.FontMainName, Font.ITALIC, (int)(30*WindowUtil.GetScaleFactor())));
+        add(labelMode, JLayeredPane.MODAL_LAYER);
+
         int buttonHeight = 100;
-        JButton buttonRecordData = WindowUtil.CreateButton("New Data Record", getWidth()/2, getHeight()/4, (int)(getWidth()*0.6f), buttonHeight, buttonBackColor, Color.white);
+        JButton buttonRecordData = WindowUtil.CreateButton(AppInfo.Mode == AppMode.Citizen ? "New Data Record" : "Analysis", getWidth()/2, getHeight()/4, (int)(getWidth()*0.6f), buttonHeight, buttonBackColor, Color.white);
         buttonRecordData.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                MenuManager.SetState(MenuState.DataRecordCreate);
+                MenuState state = AppInfo.Mode == AppMode.Citizen ? MenuState.DataRecordCreate : MenuState.SciAnalysis;
+                MenuManager.SetState(state);
             }
         });
         add(buttonRecordData, JLayeredPane.MODAL_LAYER);
 
-        JButton buttonViewDataRecords = WindowUtil.CreateButton("View Records", getWidth()/2, (int)(getHeight()/4+((buttonHeight*1*1.5))), (int)(getWidth()*0.6f), buttonHeight, buttonBackColor, Color.white);
+        JButton buttonViewDataRecords = WindowUtil.CreateButton(AppInfo.Mode == AppMode.Citizen ? "View Records" : "Download Data Records", getWidth()/2, (int)(getHeight()/4+((buttonHeight*1*1.5))), (int)(getWidth()*0.6f), buttonHeight, buttonBackColor, Color.white);
         buttonViewDataRecords.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                MenuManager.SetState(MenuState.ViewDataRecords);
+                MenuState state = AppInfo.Mode == AppMode.Citizen ? MenuState.ViewDataRecords : MenuState.SciDownload;
+                MenuManager.SetState(state);
             }
         });
         add(buttonViewDataRecords, JLayeredPane.MODAL_LAYER);
